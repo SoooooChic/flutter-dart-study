@@ -39,11 +39,13 @@ class _HomeScreenState extends State<HomeScreen> {
             //crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 30),
-              buildCategorySection('Popular Movies', popular, 300, 0),
+              buildCategorySection(
+                  'Popular Movies', popular, 300, 0, 'Popular'),
               //SizedBox(height: 10),
-              buildCategorySection('Now Playing', nowPlaying, 180, 180),
+              buildCategorySection('Now Playing', nowPlaying, 180, 180, 'Now'),
               //SizedBox(height: 10),
-              buildCategorySection('Coming Soon', comingSoon, 150, 150),
+              buildCategorySection(
+                  'Coming Soon', comingSoon, 150, 150, 'Coming'),
             ],
           ),
         ),
@@ -53,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// 카테고리 섹션을 빌드하는 함수
   Widget buildCategorySection(String title, Future<List<MovieModel>> future,
-      double height, double width) {
+      double height, double width, String category) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -80,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               } else if (snapshot.hasData) {
-                return makeList(snapshot, height, width);
+                return makeList(snapshot, height, width, category);
               } else {
                 return const Center(child: Text('No Data'));
               }
@@ -92,8 +94,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-ListView makeList(
-    AsyncSnapshot<List<MovieModel>> snapshot, double height, double width) {
+ListView makeList(AsyncSnapshot<List<MovieModel>> snapshot, double height,
+    double width, String category) {
   return ListView.separated(
     scrollDirection: Axis.horizontal,
     itemCount: snapshot.data!.length,
@@ -101,12 +103,12 @@ ListView makeList(
     itemBuilder: (context, index) {
       var movie = snapshot.data![index];
       return Movie(
-        title: movie.title,
-        thumb: movie.thumb,
-        id: movie.id,
-        height: height,
-        width: width,
-      );
+          title: movie.title,
+          thumb: movie.thumb,
+          id: movie.id,
+          height: height,
+          width: width,
+          category: category);
     },
     separatorBuilder: (context, index) => const SizedBox(width: 10),
   );

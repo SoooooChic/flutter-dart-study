@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movieflix/screens/detail_screen.dart';
 
 class Movie extends StatelessWidget {
-  final String title, thumb, id;
+  final String title, thumb, id, category;
   final double height, width;
 
   const Movie({
@@ -12,6 +12,7 @@ class Movie extends StatelessWidget {
     required this.id,
     required this.height,
     required this.width,
+    required this.category,
   });
 
   @override
@@ -25,6 +26,7 @@ class Movie extends StatelessWidget {
               title: title,
               thumb: thumb,
               id: id,
+              category: category,
             ),
             fullscreenDialog: true,
           ),
@@ -33,7 +35,7 @@ class Movie extends StatelessWidget {
       child: Column(
         children: [
           Hero(
-            tag: id,
+            tag: '$category/$id',
             child: Container(
               height: height - 50,
               width: width == 0 ? null : width,
