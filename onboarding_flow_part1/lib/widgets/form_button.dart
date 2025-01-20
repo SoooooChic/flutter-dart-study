@@ -5,34 +5,36 @@ class FormButton extends StatelessWidget {
   const FormButton({
     super.key,
     required this.disabled,
+    required this.buttonSize,
+    required this.buttonText,
   });
   final bool disabled;
+  final double buttonSize;
+  final String buttonText;
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.centerRight,
+      alignment: buttonSize < 0.8 ? Alignment.centerRight : Alignment.center,
       child: FractionallySizedBox(
-        widthFactor: 0.2,
+        widthFactor: buttonSize,
         child: AnimatedContainer(
           padding: const EdgeInsets.symmetric(
-            vertical: Sizes.size20,
-            horizontal: Sizes.size10,
+            vertical: Sizes.size10,
+            horizontal: Sizes.size14,
           ),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(Sizes.size5),
-            color: disabled
-                ? Colors.grey.shade300
-                : Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.circular(Sizes.size20),
+            color: disabled ? Colors.black : Colors.grey,
           ),
           duration: const Duration(milliseconds: 500),
           child: AnimatedDefaultTextStyle(
             duration: const Duration(milliseconds: 500),
             style: TextStyle(
-              color: disabled ? Colors.grey.shade400 : Colors.white,
+              color: disabled ? Colors.white : Colors.grey.shade200,
               fontWeight: FontWeight.w600,
             ),
-            child: const Text(
-              'Next',
+            child: Text(
+              buttonText,
               textAlign: TextAlign.center,
             ),
           ),

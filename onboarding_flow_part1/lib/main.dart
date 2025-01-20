@@ -25,11 +25,15 @@ class OnboardingFlowPart1 extends StatelessWidget {
             color: Colors.blueAccent,
             size: 38,
           ),
-          // titleTextStyle: TextStyle(
-          //   color: Colors.black,
-          //   fontSize: Sizes.size20,
-          //   fontWeight: FontWeight.w600,
-          // ),
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: Sizes.size20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: Colors.white,
+          elevation: 0,
         ),
       ),
       home: const SignUpScreen(),
