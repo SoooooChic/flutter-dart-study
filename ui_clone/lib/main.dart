@@ -47,40 +47,72 @@ class MyApp extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                Row(
-                  children: [
-                    Text(
-                      'TODAY',
-                      style: TextStyle(
-                        fontSize: 40,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Icon(
-                      Icons.circle,
-                      color: Color(0xffb22580),
-                      size: 10,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal, // 가로 스크롤 설정
-                        child: Text(
-                          '17 18 19 20',
-                          style: TextStyle(
-                            fontSize: 38,
-                            color: Color(0xff8e8e8e),
-                          ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      Text(
+                        'TODAY',
+                        style: TextStyle(
+                          fontSize: 40,
+                          color: Colors.white,
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon(
+                        Icons.circle,
+                        color: Color(0xffb22580),
+                        size: 10,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        '17 18 19 20 21 22 23 24 25 26 27 28 29 30',
+                        style: TextStyle(
+                          fontSize: 38,
+                          color: Color(0xff8e8e8e),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+                // Row(
+                //   children: [
+                //     Text(
+                //       'TODAY',
+                //       style: TextStyle(
+                //         fontSize: 40,
+                //         color: Colors.white,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       width: 10,
+                //     ),
+                //     Icon(
+                //       Icons.circle,
+                //       color: Color(0xffb22580),
+                //       size: 10,
+                //     ),
+                //     SizedBox(
+                //       width: 10,
+                //     ),
+                //     Expanded(
+                //       child: SingleChildScrollView(
+                //         scrollDirection: Axis.horizontal, // 가로 스크롤 설정
+                //         child: Text(
+                //           '17 18 19 20 21 22 23 24 25 26 27 28 29 30',
+                //           style: TextStyle(
+                //             fontSize: 38,
+                //             color: Color(0xff8e8e8e),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 SizedBox(
                   height: 10,
                 ),
