@@ -145,21 +145,22 @@ class _InitialScreenState extends State<CreateAccountScreen> {
                     color: Colors.blueAccent,
                     size: Sizes.size28,
                   ),
-                  Gaps.v28,
+                  Gaps.v24,
                   Text(
-                    "Create your account - $_agreement",
+                    "Create your account",
                     style: TextStyle(
                       fontSize: Sizes.size24,
                       color: Colors.black,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
-                  Gaps.v28,
+                  Gaps.v24,
                   TextFormField(
                     controller: _usernameController,
                     keyboardType: TextInputType.name,
                     autocorrect: false,
                     readOnly: _agreement,
+                    scrollPadding: EdgeInsets.all(0),
                     decoration: InputDecoration(
                       hintText: 'Name',
                       helperText: " ",
@@ -181,7 +182,7 @@ class _InitialScreenState extends State<CreateAccountScreen> {
                               Icons.check_circle,
                               color: Colors.green,
                             )
-                          : null,
+                          : Text(' '),
                     ),
                     onSaved: (newValue) {
                       if (newValue != null) {
@@ -217,7 +218,7 @@ class _InitialScreenState extends State<CreateAccountScreen> {
                               Icons.check_circle,
                               color: Colors.green,
                             )
-                          : null,
+                          : Text(' '),
                     ),
                     onSaved: (newValue) {
                       if (newValue != null) {
@@ -226,14 +227,16 @@ class _InitialScreenState extends State<CreateAccountScreen> {
                     },
                   ),
                   TextFormField(
-                    focusNode: _birthdayFocusNode, // FocusNode 연결
+                    focusNode: _birthdayFocusNode,
                     controller: _birthdayController,
                     readOnly: true,
                     decoration: InputDecoration(
                       hintText: 'Date of birth',
-                      helperText: _birthdayController.text.isNotEmpty
-                          ? "This will not be shown publicly.Confirm your\nown age,even if this account is for a\nbusiness, a pet, or something else."
-                          : " ",
+                      helperText: _agreement
+                          ? " "
+                          : _birthdayController.text.isNotEmpty
+                              ? "This will not be shown publicly.Confirm your\nown age,even if this account is for a\nbusiness, a pet, or something else."
+                              : " ",
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: Colors.grey.shade400,
@@ -244,7 +247,7 @@ class _InitialScreenState extends State<CreateAccountScreen> {
                               Icons.check_circle,
                               color: Colors.green,
                             )
-                          : null,
+                          : Text(' '),
                     ),
                     onSaved: (newValue) {
                       if (newValue != null) {
@@ -252,7 +255,7 @@ class _InitialScreenState extends State<CreateAccountScreen> {
                       }
                     },
                   ),
-                  Gaps.v96,
+                  Gaps.v60,
                   !_agreement
                       ? GestureDetector(
                           onTap: _onSubmitTap,
