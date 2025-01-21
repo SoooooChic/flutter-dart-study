@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow_part1/constants/sizes.dart';
-import 'package:onboarding_flow_part1/screen/sinup_screen.dart';
+import 'package:onboarding_flow_part1/screen/sign_up_screen.dart';
 
 void main() {
   runApp(const OnboardingFlowPart1());

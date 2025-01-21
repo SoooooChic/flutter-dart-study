@@ -6,16 +6,19 @@ import 'package:onboarding_flow_part1/constants/sizes.dart';
 class AuthButton extends StatelessWidget {
   final String text;
   final FaIcon? icon;
+  final bool reversal;
   const AuthButton({
     super.key,
     required this.text,
     required this.icon,
+    required this.reversal,
   });
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(Sizes.size10),
+      padding: EdgeInsets.all(Sizes.size10),
       decoration: BoxDecoration(
+        color: reversal ? Colors.black : Colors.white,
         border: Border.all(
           color: Colors.grey.shade300,
           width: Sizes.size1,
@@ -29,9 +32,10 @@ class AuthButton extends StatelessWidget {
           if (icon != null) Gaps.h10,
           Text(
             text,
-            style: const TextStyle(
-              fontSize: Sizes.size14,
+            style: TextStyle(
+              fontSize: Sizes.size16,
               fontWeight: FontWeight.w800,
+              color: reversal ? Colors.white : Colors.black,
             ),
             textAlign: TextAlign.center,
           ),

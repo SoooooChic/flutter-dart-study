@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:onboarding_flow_part1/constants/gaps.dart';
 import 'package:onboarding_flow_part1/constants/sizes.dart';
-import 'package:onboarding_flow_part1/screen/customize_your_experience_screen.dart';
+import 'package:onboarding_flow_part1/screen/customize_experience_screen.dart';
 import 'package:onboarding_flow_part1/widgets/form_button.dart';
+import 'package:onboarding_flow_part1/widgets/sign_up.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
@@ -26,6 +27,7 @@ class _InitialScreenState extends State<CreateAccountScreen> {
   String _email = '';
   DateTime date = DateTime.now();
   bool _showDatePicker = false;
+  bool _agreement = false;
 
   @override
   void initState() {
@@ -72,21 +74,23 @@ class _InitialScreenState extends State<CreateAccountScreen> {
     return emailRegExp.hasMatch(email);
   }
 
-  void _onSubmitTap() {
+  void _onSubmitTap() async {
     if (_formKey.currentState != null) {
       if (_isValidName(_name) &&
           _isValidEmail(_email) &&
           _birthdayController.text.isNotEmpty) {
         _formKey.currentState!.save();
-        Navigator.of(context).push(
+
+        final agreement = await Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => CustomizeYourExperienceScreen(
-              name: _name,
-              email: _email,
-              birthday: _birthdayController.text,
-            ),
+            builder: (context) => CustomizeExperienceScreen(),
           ),
         );
+
+        if (agreement == true) {
+          _agreement = agreement;
+          setState(() {});
+        }
       }
     }
   }
@@ -120,14 +124,20 @@ class _InitialScreenState extends State<CreateAccountScreen> {
                     alignment: Alignment.centerLeft,
                     child: GestureDetector(
                       onTap: () => {Navigator.pop(context)},
-                      child: Text(
-                        'Cancel',
-                        style: TextStyle(
-                          fontSize: Sizes.size14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
+                      child: _agreement
+                          ? Icon(
+                              Icons.arrow_back_ios,
+                              size: Sizes.size20,
+                              color: Colors.black,
+                            )
+                          : Text(
+                              'Cancel',
+                              style: TextStyle(
+                                fontSize: Sizes.size14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
                     ),
                   ),
                   FaIcon(
@@ -137,7 +147,7 @@ class _InitialScreenState extends State<CreateAccountScreen> {
                   ),
                   Gaps.v28,
                   Text(
-                    "Create your account",
+                    "Create your account - $_agreement",
                     style: TextStyle(
                       fontSize: Sizes.size24,
                       color: Colors.black,
@@ -149,6 +159,7 @@ class _InitialScreenState extends State<CreateAccountScreen> {
                     controller: _usernameController,
                     keyboardType: TextInputType.name,
                     autocorrect: false,
+                    readOnly: _agreement,
                     decoration: InputDecoration(
                       hintText: 'Name',
                       helperText: " ",
@@ -182,6 +193,7 @@ class _InitialScreenState extends State<CreateAccountScreen> {
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: false,
+                    readOnly: _agreement,
                     decoration: InputDecoration(
                       hintText: 'Email address',
                       helperText: " ",
@@ -241,22 +253,25 @@ class _InitialScreenState extends State<CreateAccountScreen> {
                     },
                   ),
                   Gaps.v96,
-                  GestureDetector(
-                    onTap: _onSubmitTap,
-                    child: FormButton(
-                      disabled: (_isValidName(_name) &&
-                          _isValidEmail(_email) &&
-                          _birthdayController.text.isNotEmpty),
-                      buttonSize: 0.25,
-                      buttonText: 'Next',
-                    ),
-                  )
+                  !_agreement
+                      ? GestureDetector(
+                          onTap: _onSubmitTap,
+                          child: FormButton(
+                            disabled: (_isValidName(_name) &&
+                                _isValidEmail(_email) &&
+                                _birthdayController.text.isNotEmpty),
+                            buttonSize: 0.25,
+                            buttonText: 'Next',
+                            blueColor: false,
+                          ),
+                        )
+                      : Gaps.v10,
                 ],
               ),
             ),
           ),
         ),
-        bottomNavigationBar: _showDatePicker
+        bottomNavigationBar: !_agreement && _showDatePicker
             ? SizedBox(
                 height: 110,
                 child: CupertinoDatePicker(
@@ -266,7 +281,9 @@ class _InitialScreenState extends State<CreateAccountScreen> {
                   onDateTimeChanged: _setTextFieldDate,
                 ),
               )
-            : null, // 포커스 상태에 따라 표시 여부 결정
+            : _agreement
+                ? SignUpWidget()
+                : null,
       ),
     );
   }

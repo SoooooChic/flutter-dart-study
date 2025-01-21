@@ -27,13 +27,13 @@ class SignUpScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Gaps.v28,
+              Gaps.v48,
               FaIcon(
                 FontAwesomeIcons.twitter,
                 color: Colors.blueAccent,
                 size: Sizes.size28,
               ),
-              Gaps.v60,
+              Gaps.v80,
               Text(
                 "See what's happening\nin the world right now.",
                 style: TextStyle(
@@ -46,11 +46,13 @@ class SignUpScreen extends StatelessWidget {
               const AuthButton(
                 icon: FaIcon(FontAwesomeIcons.google),
                 text: "Continue with Google",
+                reversal: false,
               ),
               Gaps.v16,
               AuthButton(
                 icon: FaIcon(FontAwesomeIcons.apple),
                 text: "Continue with Apple",
+                reversal: false,
               ),
               Gaps.v16,
               Row(
@@ -81,12 +83,13 @@ class SignUpScreen extends StatelessWidget {
                 child: AuthButton(
                   icon: null,
                   text: "Create account",
+                  reversal: true,
                 ),
               ),
               Gaps.v10,
               const Text(
                 "By signing up, you agree to our Terms, Privacy Policy, and Cookie Use.",
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: Sizes.size14,
                 ),

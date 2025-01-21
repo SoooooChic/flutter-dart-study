@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:onboarding_flow_part1/constants/sizes.dart';
 
 class FormButton extends StatelessWidget {
+  final bool disabled;
+  final double buttonSize;
+  final String buttonText;
+  final bool blueColor;
+
   const FormButton({
     super.key,
     required this.disabled,
     required this.buttonSize,
     required this.buttonText,
+    required this.blueColor,
   });
-  final bool disabled;
-  final double buttonSize;
-  final String buttonText;
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -24,7 +28,11 @@ class FormButton extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(Sizes.size20),
-            color: disabled ? Colors.black : Colors.grey,
+            color: blueColor
+                ? Colors.blue
+                : disabled
+                    ? Colors.black
+                    : Colors.grey,
           ),
           duration: const Duration(milliseconds: 500),
           child: AnimatedDefaultTextStyle(

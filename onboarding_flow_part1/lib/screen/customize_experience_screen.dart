@@ -2,46 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:onboarding_flow_part1/constants/gaps.dart';
 import 'package:onboarding_flow_part1/constants/sizes.dart';
-import 'package:onboarding_flow_part1/screen/create_account_result_screen.dart';
 import 'package:onboarding_flow_part1/widgets/form_button.dart';
 
-class CustomizeYourExperienceScreen extends StatefulWidget {
-  //const CustomizeYourExperienceScreen({super.key});
-
-  final String name, email, birthday;
-
-  const CustomizeYourExperienceScreen({
-    super.key,
-    required this.name,
-    required this.email,
-    required this.birthday,
-  });
+class CustomizeExperienceScreen extends StatefulWidget {
+  const CustomizeExperienceScreen({super.key});
 
   @override
-  State<CustomizeYourExperienceScreen> createState() =>
+  State<CustomizeExperienceScreen> createState() =>
       _CustomizeYourExperienceScreenState();
 }
 
 class _CustomizeYourExperienceScreenState
-    extends State<CustomizeYourExperienceScreen> {
-  // void _onSignResultTap(BuildContext context) {
-  //   Navigator.of(context).push(
-  //     MaterialPageRoute(
-  //       builder: (context) => const CreateAccountResultScreen(),
-  //     ),
-  //   );
-  // }
+    extends State<CustomizeExperienceScreen> {
+  bool agree = false;
 
   void _onSignResultTap() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => CreateAccountResultScreen(
-          name: widget.name,
-          email: widget.email,
-          birthday: widget.birthday,
-        ),
-      ),
-    );
+    if (agree) {
+      Navigator.pop(context, agree);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _toggleButton() {
+    agree = !agree;
+    setState(() {});
   }
 
   @override
@@ -55,7 +43,7 @@ class _CustomizeYourExperienceScreenState
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context); // 이전 화면으로 이동
+            Navigator.pop(context);
           },
         ),
       ),
@@ -75,7 +63,6 @@ class _CustomizeYourExperienceScreenState
                 ),
               ),
               Gaps.v60,
-              Text("Name: ${widget.name}"),
               Text(
                 "Customize your\nexperience",
                 style: TextStyle(
@@ -105,12 +92,15 @@ class _CustomizeYourExperienceScreenState
                     ),
                     textAlign: TextAlign.left,
                   ),
-                  FaIcon(
-                    // FontAwesomeIcons.toggleOn,
-                    // color: Colors.green,
-                    FontAwesomeIcons.toggleOff,
-                    color: Colors.grey,
-                    size: Sizes.size36,
+                  GestureDetector(
+                    onTap: _toggleButton,
+                    child: FaIcon(
+                      agree
+                          ? FontAwesomeIcons.toggleOn
+                          : FontAwesomeIcons.toggleOff,
+                      color: agree ? Colors.green : Colors.grey,
+                      size: Sizes.size36,
+                    ),
                   ),
                 ],
               ),
@@ -132,9 +122,10 @@ class _CustomizeYourExperienceScreenState
           child: GestureDetector(
             onTap: _onSignResultTap,
             child: FormButton(
-              disabled: true,
+              disabled: agree,
               buttonSize: 0.8,
               buttonText: 'Next',
+              blueColor: false,
             ),
           ),
         ),
