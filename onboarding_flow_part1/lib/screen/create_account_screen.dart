@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:onboarding_flow_part1/constants/gaps.dart';
 import 'package:onboarding_flow_part1/constants/sizes.dart';
 import 'package:onboarding_flow_part1/screen/customize_experience_screen.dart';
+import 'package:onboarding_flow_part1/widgets/auth_text_form_field.dart';
 import 'package:onboarding_flow_part1/widgets/form_button.dart';
 import 'package:onboarding_flow_part1/widgets/sign_up.dart';
 
@@ -16,23 +17,31 @@ class CreateAccountScreen extends StatefulWidget {
 
 class _InitialScreenState extends State<CreateAccountScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // Form 데이터 저장용 Map
   Map<String, String> formData = {};
 
+  // 각 TextFormField의 컨트롤러
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _birthdayController = TextEditingController();
-  final FocusNode _birthdayFocusNode = FocusNode();
 
+  // 입력 값 저장
   String _name = '';
   String _email = '';
-  DateTime date = DateTime.now();
-  bool _showDatePicker = false;
+  String _birthday = '';
+
+  // 날짜 선택용 기본 값
+  final DateTime _date = DateTime.now();
+
+  // 약관 동의 상태 (customize_experience_screen pop)
   bool _agreement = false;
 
   @override
   void initState() {
     super.initState();
 
+    // 입력 필드 변경 시 상태 업데이트
     _usernameController.addListener(() {
       setState(() {
         _name = _usernameController.text;
@@ -45,28 +54,30 @@ class _InitialScreenState extends State<CreateAccountScreen> {
       });
     });
 
-    _birthdayFocusNode.addListener(() {
+    _birthdayController.addListener(() {
       setState(() {
-        _showDatePicker = _birthdayFocusNode.hasFocus;
+        _birthday = _birthdayController.text;
       });
     });
   }
 
   @override
   void dispose() {
+    // 컨트롤러 해제
     _usernameController.dispose();
     _emailController.dispose();
     _birthdayController.dispose();
-    _birthdayFocusNode.dispose();
     super.dispose();
   }
 
+  // 이름 유효성 검사
   bool _isValidName(String name) {
     if (name.isEmpty) return false;
     final emailRegExp = RegExp(r"^[a-zA-Z0-9]{3,}$");
     return emailRegExp.hasMatch(name);
   }
 
+  // 이메일 유효성 검사
   bool _isValidEmail(String email) {
     if (email.isEmpty) return false;
     final emailRegExp =
@@ -74,8 +85,10 @@ class _InitialScreenState extends State<CreateAccountScreen> {
     return emailRegExp.hasMatch(email);
   }
 
+  // Next 버튼클릭릭 async await get _agreement
   void _onSubmitTap() async {
     if (_formKey.currentState != null) {
+      // 모든 값이 유효한 경우
       if (_isValidName(_name) &&
           _isValidEmail(_email) &&
           _birthdayController.text.isNotEmpty) {
@@ -95,27 +108,47 @@ class _InitialScreenState extends State<CreateAccountScreen> {
     }
   }
 
+  // 화면 탭 시 키보드 해제
   void _onScaffoldTap() {
     FocusScope.of(context).unfocus();
   }
 
+  // 날짜 선택 후 텍스트 필드에 설정
   void _setTextFieldDate(DateTime date) {
     final textDate = date.toString().split(" ").first;
     _birthdayController.value = TextEditingValue(text: textDate);
   }
 
+  // showCupertinoModalPopup Modal 표시
+  void _showDatePickerModal() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 300,
+          color: Colors.white,
+          child: CupertinoDatePicker(
+            maximumDate: _date,
+            initialDateTime: _date,
+            mode: CupertinoDatePickerMode.date,
+            onDateTimeChanged: _setTextFieldDate,
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      // 화면 탭 시 키보드 해제용 GestureDetector
       onTap: _onScaffoldTap,
       child: Scaffold(
         body: SafeArea(
           child: Form(
             key: _formKey,
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: Sizes.size40,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: Sizes.size40),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -123,7 +156,7 @@ class _InitialScreenState extends State<CreateAccountScreen> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: GestureDetector(
-                      onTap: () => {Navigator.pop(context)},
+                      onTap: () => Navigator.pop(context),
                       child: _agreement
                           ? Icon(
                               Icons.arrow_back_ios,
@@ -155,100 +188,63 @@ class _InitialScreenState extends State<CreateAccountScreen> {
                     ),
                   ),
                   Gaps.v24,
-                  TextFormField(
+                  // 이름 입력 필드
+                  AuthTextFormField(
                     controller: _usernameController,
-                    keyboardType: TextInputType.name,
-                    autocorrect: false,
+                    hintText: 'Name',
+                    errorText: _name.isEmpty || _isValidName(_name)
+                        ? null
+                        : "Input a valid name",
                     readOnly: _agreement,
-                    scrollPadding: EdgeInsets.all(0),
-                    decoration: InputDecoration(
-                      hintText: 'Name',
-                      helperText: " ",
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.grey.shade400,
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.grey.shade400,
-                        ),
-                      ),
-                      errorText: _name.isEmpty
-                          ? null
-                          : (_isValidName(_name) ? null : "Input a valid name"),
-                      suffixIcon: _isValidName(_name)
-                          ? const Icon(
-                              Icons.check_circle,
-                              color: Colors.green,
-                            )
-                          : Text(' '),
-                    ),
+                    suffixIcon: _isValidName(_name)
+                        ? const Icon(
+                            Icons.check_circle,
+                            color: Colors.green,
+                          )
+                        : Text(' '),
                     onSaved: (newValue) {
                       if (newValue != null) {
                         formData['name'] = newValue;
                       }
                     },
                   ),
-                  TextFormField(
+                  // 이메일 입력 필드
+                  AuthTextFormField(
                     controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    autocorrect: false,
+                    hintText: 'Email address',
+                    errorText: _email.isEmpty || _isValidEmail(_email)
+                        ? null
+                        : "Input a valid email",
                     readOnly: _agreement,
-                    decoration: InputDecoration(
-                      hintText: 'Email address',
-                      helperText: " ",
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.grey.shade400,
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.grey.shade400,
-                        ),
-                      ),
-                      errorText: _email.isEmpty
-                          ? null
-                          : (_isValidEmail(_email)
-                              ? null
-                              : "Input a valid email"),
-                      suffixIcon: _isValidEmail(_email)
-                          ? const Icon(
-                              Icons.check_circle,
-                              color: Colors.green,
-                            )
-                          : Text(' '),
-                    ),
+                    suffixIcon: _isValidEmail(_email)
+                        ? const Icon(
+                            Icons.check_circle,
+                            color: Colors.green,
+                          )
+                        : Text(' '),
                     onSaved: (newValue) {
                       if (newValue != null) {
                         formData['email'] = newValue;
                       }
                     },
                   ),
-                  TextFormField(
-                    focusNode: _birthdayFocusNode,
+                  // 생년월일 입력 필드
+                  AuthTextFormField(
                     controller: _birthdayController,
+                    hintText: 'Date of birth',
+                    helperText: _agreement
+                        ? " "
+                        : _birthday.isNotEmpty
+                            ? "This will not be shown publicly. Confirm your\nown age, even if this account is for a\nbusiness, a pet, or something else."
+                            : " ",
                     readOnly: true,
-                    decoration: InputDecoration(
-                      hintText: 'Date of birth',
-                      helperText: _agreement
-                          ? " "
-                          : _birthdayController.text.isNotEmpty
-                              ? "This will not be shown publicly.Confirm your\nown age,even if this account is for a\nbusiness, a pet, or something else."
-                              : " ",
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.grey.shade400,
-                        ),
-                      ),
-                      suffixIcon: _birthdayController.text.isNotEmpty
-                          ? const Icon(
-                              Icons.check_circle,
-                              color: Colors.green,
-                            )
-                          : Text(' '),
-                    ),
+                    suffixIcon: _birthday.isNotEmpty
+                        ? const Icon(
+                            Icons.check_circle,
+                            color: Colors.green,
+                          )
+                        : Text(' '),
+                    onTap: _agreement ? null : _showDatePickerModal,
                     onSaved: (newValue) {
                       if (newValue != null) {
                         formData['birthday'] = newValue;
@@ -256,13 +252,14 @@ class _InitialScreenState extends State<CreateAccountScreen> {
                     },
                   ),
                   Gaps.v60,
+                  // "Next" 버튼
                   !_agreement
                       ? GestureDetector(
                           onTap: _onSubmitTap,
                           child: FormButton(
                             disabled: (_isValidName(_name) &&
                                 _isValidEmail(_email) &&
-                                _birthdayController.text.isNotEmpty),
+                                _birthday.isNotEmpty),
                             buttonSize: 0.25,
                             buttonText: 'Next',
                             blueColor: false,
@@ -274,19 +271,8 @@ class _InitialScreenState extends State<CreateAccountScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: !_agreement && _showDatePicker
-            ? SizedBox(
-                height: 110,
-                child: CupertinoDatePicker(
-                  maximumDate: date,
-                  initialDateTime: date,
-                  mode: CupertinoDatePickerMode.date,
-                  onDateTimeChanged: _setTextFieldDate,
-                ),
-              )
-            : _agreement
-                ? SignUpWidget()
-                : null,
+        // 표시 _agreement 상태에 따라 결정
+        bottomNavigationBar: _agreement ? SignUpWidget() : null,
       ),
     );
   }

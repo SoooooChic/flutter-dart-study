@@ -7,12 +7,14 @@ class AuthButton extends StatelessWidget {
   final String text;
   final FaIcon? icon;
   final bool reversal;
+
   const AuthButton({
     super.key,
     required this.text,
     required this.icon,
     required this.reversal,
   });
+
   @override
   Widget build(BuildContext context) {
     return Container(

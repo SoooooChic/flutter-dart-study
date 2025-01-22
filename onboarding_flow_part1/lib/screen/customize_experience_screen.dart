@@ -22,15 +22,7 @@ class _CustomizeYourExperienceScreenState
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void _toggleButton() {
-    agree = !agree;
-    setState(() {});
-  }
+  void _toggleButton() => setState(() => agree = !agree);
 
   @override
   Widget build(BuildContext context) {
@@ -118,15 +110,13 @@ class _CustomizeYourExperienceScreenState
       bottomNavigationBar: Container(
         color: Colors.white,
         height: 100,
-        child: Center(
-          child: GestureDetector(
-            onTap: _onSignResultTap,
-            child: FormButton(
-              disabled: agree,
-              buttonSize: 0.8,
-              buttonText: 'Next',
-              blueColor: false,
-            ),
+        child: GestureDetector(
+          onTap: _onSignResultTap,
+          child: FormButton(
+            disabled: agree,
+            buttonSize: 0.8,
+            buttonText: 'Next',
+            blueColor: false,
           ),
         ),
       ),
