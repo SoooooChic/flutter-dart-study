@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'constants/sizes.dart';
 import 'main_navigation/main_navigation_screen.dart';
 
 void main() {
@@ -10,7 +8,6 @@ void main() {
 class ThreadApp extends StatelessWidget {
   const ThreadApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
