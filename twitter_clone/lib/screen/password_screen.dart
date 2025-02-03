@@ -15,7 +15,7 @@ class PasswordScreen extends StatefulWidget {
 class _PasswordScreenState extends State<PasswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  // 텍스트 컨드롤러러
+  // 텍스트 컨드롤러
   final TextEditingController _passwordController = TextEditingController();
 
   String _password = '';
@@ -150,18 +150,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                         ],
                       ),
                       hintText: "Password",
-                      // enabledBorder: UnderlineInputBorder(
-                      //   borderSide: BorderSide(
-                      //     color: Colors.grey.shade400,
-                      //   ),
-                      // ),
-                      // focusedBorder: UnderlineInputBorder(
-                      //   borderSide: BorderSide(
-                      //     color: Colors.grey.shade400,
-                      //   ),
-                      // ),
                     ),
-                    // cursorColor: Theme.of(context).primaryColor,
                   ),
                   Gaps.v28,
                 ],

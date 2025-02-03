@@ -5,7 +5,6 @@ import '../constants/gaps.dart';
 import '../constants/sizes.dart';
 import '../widgets/form_button.dart';
 import 'password_screen.dart';
-// import 'sign_up_screen.dart';
 
 class ConfirmCodeScreen extends StatefulWidget {
   const ConfirmCodeScreen({super.key});
@@ -19,7 +18,7 @@ class _ConfirmCodeScreenState extends State<ConfirmCodeScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  // 텍스트 컨드롤러러
+  // 텍스트 컨드롤러
   final List<TextEditingController> _textController = [];
 
   // FOCUS 노드
@@ -58,8 +57,6 @@ class _ConfirmCodeScreenState extends State<ConfirmCodeScreen> {
   }
 
   void _onConfirmCodeTap() {
-    // print(_codeMatch);
-
     if (_codeMatch) {
       Navigator.of(context).push(
         MaterialPageRoute(

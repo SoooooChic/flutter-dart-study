@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screen/interests_screen.dart';
+import 'screen/confirm_code_screen.dart';
 
 void main() {
   runApp(const TwitterClone());
@@ -35,10 +35,10 @@ class TwitterClone extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      // Assignment 11 초기화면면
+      // Assignment 11
       // home: const SignUpScreen(),
-      // Assignment 12 ConfirmCodeScreen / PasswordScreen / InterestsScreen
-      home: const InterestsScreen(),
+      // Assignment 12 ConfirmCodeScreen / PasswordScreen / InterestsScreen / InterestsPartTwoScreen
+      home: const ConfirmCodeScreen(),
     );
   }
 }
