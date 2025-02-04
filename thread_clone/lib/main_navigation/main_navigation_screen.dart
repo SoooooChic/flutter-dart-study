@@ -4,7 +4,6 @@ import '../constants/gaps.dart';
 import '../constants/sizes.dart';
 import 'widgets/nav_tab.dart';
 import 'widgets/post_dummy.dart';
-import 'widgets/post_video_button.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -14,7 +13,24 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
+  final ScrollController _scrollController = ScrollController();
+
   int _selectedIndex = 0;
+  bool _showTitle = true;
+
+  void _onScroll() {
+    if (_scrollController.offset > 100) {
+      if (!_showTitle) return;
+      setState(() {
+        _showTitle = false;
+      });
+    } else {
+      if (_showTitle) return;
+      setState(() {
+        _showTitle = true;
+      });
+    }
+  }
 
   void _onTap(int index) {
     setState(() {
@@ -22,15 +38,16 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     });
   }
 
-  void _onPostVideoButtonTap() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => Scaffold(
-          appBar: AppBar(title: const Text('Record video')),
-        ),
-        fullscreenDialog: true,
-      ),
-    );
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -38,16 +55,26 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: FaIcon(
-          FontAwesomeIcons.threads,
-          size: Sizes.size40,
+        title: AnimatedOpacity(
+          opacity: _showTitle ? 1 : 0,
+          duration: Duration(milliseconds: 500),
+          child: FaIcon(
+            FontAwesomeIcons.threads,
+            size: Sizes.size40,
+          ),
         ),
       ),
       body: Stack(
         children: [
           Offstage(
             offstage: _selectedIndex != 0,
-            child: const ThreadsHomeScreen(),
+            child: Scrollbar(
+              controller: _scrollController,
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: PostDummy(),
+              ),
+            ),
           ),
           Offstage(
             offstage: _selectedIndex != 1,
@@ -55,10 +82,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 3,
-            child: const Scaffold(body: Center(child: Text('MESSAGE'))),
+            child: const Scaffold(body: Center(child: Text('NEW POST'))),
           ),
           Offstage(
             offstage: _selectedIndex != 4,
+            child: const Scaffold(body: Center(child: Text('HEART'))),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 5,
             child: const Scaffold(body: Center(child: Text('PROFILE'))),
           )
         ],
@@ -73,32 +104,27 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               NavTab(
                 isSelected: _selectedIndex == 0,
                 icon: FontAwesomeIcons.house,
-                selectedIcon: FontAwesomeIcons.house,
                 onTap: () => _onTap(0),
               ),
               NavTab(
                 isSelected: _selectedIndex == 1,
                 icon: FontAwesomeIcons.magnifyingGlass,
-                selectedIcon: FontAwesomeIcons.magnifyingGlass,
                 onTap: () => _onTap(1),
               ),
-              Gaps.h12,
-              GestureDetector(
-                onTap: _onPostVideoButtonTap,
-                child: const PostVideoButton(),
-              ),
-              Gaps.h12,
               NavTab(
                 isSelected: _selectedIndex == 3,
-                icon: FontAwesomeIcons.message,
-                selectedIcon: FontAwesomeIcons.solidMessage,
+                icon: FontAwesomeIcons.penToSquare,
                 onTap: () => _onTap(3),
               ),
               NavTab(
                 isSelected: _selectedIndex == 4,
-                icon: FontAwesomeIcons.user,
-                selectedIcon: FontAwesomeIcons.solidUser,
+                icon: FontAwesomeIcons.heart,
                 onTap: () => _onTap(4),
+              ),
+              NavTab(
+                isSelected: _selectedIndex == 5,
+                icon: FontAwesomeIcons.user,
+                onTap: () => _onTap(5),
               ),
             ],
           ),

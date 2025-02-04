@@ -24,6 +24,14 @@ class ThreadApp extends StatelessWidget {
           //   fontWeight: FontWeight.w600,
           // ),
         ),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Colors.white), // 기본 본문 글자색 흰색
+          bodyMedium: TextStyle(color: Colors.white),
+          bodySmall: TextStyle(color: Colors.white),
+          titleLarge: TextStyle(color: Colors.white), // 제목 스타일도 흰색
+          titleMedium: TextStyle(color: Colors.white),
+          titleSmall: TextStyle(color: Colors.white),
+        ),
       ),
       home: MainNavigationScreen(),
     );
