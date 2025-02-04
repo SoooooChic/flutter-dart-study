@@ -34,7 +34,8 @@ class Post {
   final String timeAgo;
   final int replies;
   final int likes;
-  final List<String> imageUrls; // 여러 개의 이미지 저장
+  final List<String> imageUrls;
+  final List<String> topUsers;
 
   Post({
     required this.username,
@@ -44,6 +45,7 @@ class Post {
     required this.replies,
     required this.likes,
     this.imageUrls = const [],
+    this.topUsers = const [],
   });
 
   factory Post.fake() {
@@ -65,6 +67,10 @@ class Post {
               (index) =>
                   "https://picsum.photos/seed/${fake.randomGenerator.integer(100)}/500/300")
           : [],
+      topUsers: List.generate(
+          3,
+          (index) =>
+              "https://i.pravatar.cc/150?img=${fake.randomGenerator.integer(60)}"),
     );
   }
 }
@@ -217,22 +223,19 @@ class PostCard extends StatelessWidget {
                     left: 30,
                     top: -20,
                     child: CircleAvatar(
-                      backgroundImage:
-                          NetworkImage('https://i.pravatar.cc/150?img=1'),
+                      backgroundImage: NetworkImage(post.topUsers[0]),
                       radius: 15,
                     ),
                   ),
                   CircleAvatar(
-                    backgroundImage:
-                        NetworkImage('https://i.pravatar.cc/150?img=2'),
+                    backgroundImage: NetworkImage(post.topUsers[1]),
                     radius: 12,
                   ),
                   Positioned(
                     left: 25,
                     bottom: -10,
                     child: CircleAvatar(
-                      backgroundImage:
-                          NetworkImage('https://i.pravatar.cc/150?img=3'),
+                      backgroundImage: NetworkImage(post.topUsers[2]),
                       radius: 10,
                     ),
                   ),
