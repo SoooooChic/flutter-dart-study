@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/sizes.dart';
 import 'package:threads_clone/views/home_screen.dart';
-import 'package:threads_clone/views/like_screen.dart';
+import 'package:threads_clone/views/activity_screen.dart';
 import 'package:threads_clone/views/profile_screen.dart';
-import 'package:threads_clone/views/discover_screen.dart';
+import 'package:threads_clone/views/search_screen.dart';
 import 'package:threads_clone/views/write_screen.dart';
 import 'package:threads_clone/widgets/nav_tab.dart';
 
@@ -18,7 +18,7 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  late int _selectedIndex = 0;
+  late int _selectedIndex = 1;
 
   void _onTap(int index) {
     setState(() {
@@ -48,7 +48,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 1,
-            child: const DiscoverScreen(),
+            child: const SearchScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 2,
@@ -56,7 +56,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 3,
-            child: const LikeScreen(),
+            child: const ActivityScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 4,
@@ -84,10 +84,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                   selectedIndex: _selectedIndex,
                 ),
                 NavTab(
-                  text: "Discover",
+                  text: "Search",
                   isSelected: _selectedIndex == 1,
-                  icon: FontAwesomeIcons.compass,
-                  selectedIcon: FontAwesomeIcons.solidCompass,
+                  icon: FontAwesomeIcons.magnifyingGlass,
+                  selectedIcon: FontAwesomeIcons.magnifyingGlass,
                   onTap: () => _onTap(1),
                   selectedIndex: _selectedIndex,
                 ),
@@ -100,7 +100,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                   selectedIndex: _selectedIndex,
                 ),
                 NavTab(
-                  text: "Like",
+                  text: "Activity",
                   isSelected: _selectedIndex == 3,
                   icon: FontAwesomeIcons.heart,
                   selectedIcon: FontAwesomeIcons.solidHeart,
