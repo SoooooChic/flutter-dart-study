@@ -44,7 +44,7 @@ class _WriteScreenState extends State<WriteScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      height: size.height * 0.95,
+      height: size.height * 0.9,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Sizes.size14),
