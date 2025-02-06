@@ -11,9 +11,9 @@ class EllipsisScreen extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      // showDragHandle: true,
-      // clipBehavior: Clip.hardEdge,
-      backgroundColor: Colors.transparent,
+      showDragHandle: true,
+      clipBehavior: Clip.hardEdge,
+      backgroundColor: Colors.white,
       builder: (context) => ReportScreen(),
     );
   }
@@ -22,7 +22,7 @@ class EllipsisScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      height: size.height * 0.33,
+      height: size.height * 0.3,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Sizes.size14),
@@ -30,34 +30,32 @@ class EllipsisScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.grey.shade50,
         body: Padding(
-          padding: EdgeInsets.all(Sizes.size28),
+          padding: EdgeInsets.symmetric(horizontal: Sizes.size28),
           child: Column(
             children: [
               Container(
-                width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: Colors.grey[300],
+                  color: Colors.grey[200],
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(Sizes.size12),
                   child: Column(
-                    mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Unfollow',
                         style: TextStyle(
-                          fontSize: Sizes.size20,
-                          fontWeight: FontWeight.bold,
+                          fontSize: Sizes.size16,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       Divider(),
                       Text(
                         'Mute',
                         style: TextStyle(
-                          fontSize: Sizes.size20,
-                          fontWeight: FontWeight.bold,
+                          fontSize: Sizes.size16,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ],
@@ -69,7 +67,7 @@ class EllipsisScreen extends StatelessWidget {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: Colors.grey[300],
+                  color: Colors.grey[200],
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(Sizes.size12),
@@ -80,8 +78,8 @@ class EllipsisScreen extends StatelessWidget {
                       Text(
                         'Hide',
                         style: TextStyle(
-                          fontSize: Sizes.size20,
-                          fontWeight: FontWeight.bold,
+                          fontSize: Sizes.size16,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       Divider(),
@@ -92,8 +90,8 @@ class EllipsisScreen extends StatelessWidget {
                         child: Text(
                           'Report',
                           style: TextStyle(
-                            fontSize: Sizes.size20,
-                            fontWeight: FontWeight.bold,
+                            fontSize: Sizes.size16,
+                            fontWeight: FontWeight.w700,
                             color: Colors.red,
                           ),
                         ),

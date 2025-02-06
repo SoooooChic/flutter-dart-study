@@ -30,8 +30,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      // showDragHandle: true,
-      // clipBehavior: Clip.hardEdge,
       backgroundColor: Colors.transparent,
       builder: (context) => WriteScreen(),
     );

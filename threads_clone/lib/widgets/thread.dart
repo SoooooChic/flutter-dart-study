@@ -15,9 +15,9 @@ class Thread extends StatelessWidget {
   void _onEllipsisTap(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      // isScrollControlled: true,
-      // showDragHandle: true,
-      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      showDragHandle: true,
+      backgroundColor: Colors.white,
       builder: (context) => EllipsisScreen(),
     );
   }

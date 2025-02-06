@@ -25,7 +25,7 @@ class ReportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      height: size.height * 0.65,
+      height: size.height * 0.6,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Sizes.size14),
@@ -33,13 +33,14 @@ class ReportScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.grey.shade50,
         appBar: AppBar(
+          toolbarHeight: 20,
           elevation: 1,
           backgroundColor: Colors.grey.shade50,
           automaticallyImplyLeading: false,
           title: const Text(
             "Report",
             style: TextStyle(
-              fontSize: Sizes.size24,
+              fontSize: Sizes.size18,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
@@ -61,7 +62,7 @@ class ReportScreen extends StatelessWidget {
               const Text(
                 'Why are you reporting this thread?',
                 style: TextStyle(
-                  fontSize: Sizes.size20,
+                  fontSize: Sizes.size16,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
@@ -70,7 +71,7 @@ class ReportScreen extends StatelessWidget {
               const Text(
                 'Your report is anonymous, except if you\'re reporting an intellectual property infringement. If someone is in immediate danger, call the local emergency services - don\'t wait.',
                 style: TextStyle(
-                  fontSize: Sizes.size18,
+                  fontSize: Sizes.size14,
                   color: Colors.grey,
                 ),
               ),
@@ -86,11 +87,11 @@ class ReportScreen extends StatelessWidget {
                   itemBuilder: (context, index) => ListTile(
                     title: Text(
                       reportText[index],
-                      style: const TextStyle(fontSize: Sizes.size20),
+                      style: const TextStyle(fontSize: Sizes.size16),
                     ),
                     trailing: FaIcon(
                       FontAwesomeIcons.angleRight,
-                      size: Sizes.size20,
+                      size: Sizes.size18,
                       color: Colors.grey.shade500,
                     ),
                     onTap: () => _onNextStep(context),

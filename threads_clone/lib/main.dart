@@ -46,6 +46,9 @@ class App extends StatelessWidget {
         listTileTheme: const ListTileThemeData(
           iconColor: Colors.black,
         ),
+        bottomSheetTheme: BottomSheetThemeData(
+          dragHandleColor: Colors.grey.shade400,
+        ),
       ),
     );
   }

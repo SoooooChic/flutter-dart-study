@@ -15,12 +15,15 @@ class WriteScreen extends StatefulWidget {
 
 class _WriteScreenState extends State<WriteScreen> {
   final TextEditingController _thredController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
 
   String _thread = '';
 
   @override
   void initState() {
     super.initState();
+    _focusNode.requestFocus();
+
     _thredController.addListener(() {
       setState(() {
         _thread = _thredController.text;
@@ -31,6 +34,7 @@ class _WriteScreenState extends State<WriteScreen> {
   @override
   void dispose() {
     _thredController.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -50,7 +54,7 @@ class _WriteScreenState extends State<WriteScreen> {
         borderRadius: BorderRadius.circular(Sizes.size14),
       ),
       child: Scaffold(
-        resizeToAvoidBottomInset: true, // BottomAppBar 키보드 위로 자동 이동  option1
+        resizeToAvoidBottomInset: true, // BottomAppBar 키보드 위로 자동 이동 option1
         appBar: AppBar(
           elevation: 1,
           backgroundColor: Colors.white,
@@ -101,9 +105,9 @@ class _WriteScreenState extends State<WriteScreen> {
                       ),
                       Gaps.v10,
                       Container(
-                        width: 1, // 세로선 너비
+                        width: 1,
                         height: 50,
-                        color: Colors.grey, // 세로선 색상
+                        color: Colors.grey,
                       ),
                       Gaps.v10,
                       Opacity(
@@ -132,6 +136,7 @@ class _WriteScreenState extends State<WriteScreen> {
                           height: Sizes.size44,
                           child: TextField(
                             controller: _thredController,
+                            focusNode: _focusNode,
                             minLines: null,
                             maxLines: null,
                             textInputAction: TextInputAction.newline,
@@ -162,33 +167,30 @@ class _WriteScreenState extends State<WriteScreen> {
               Positioned(
                 bottom: 0,
                 width: size.width - 32,
-                child: SafeArea(
-                  // BottomAppBar 키보드 위로 자동 이동  option2
-                  child: BottomAppBar(
-                    color: Colors.white,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Anyone can reply',
+                child: BottomAppBar(
+                  color: Colors.white,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Anyone can reply',
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: _onThreadWrite,
+                        child: Text(
+                          'Post',
                           style: TextStyle(
-                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                            color: _thredController.text.isEmpty
+                                ? Colors.blue[100]
+                                : Colors.blue,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: _onThreadWrite,
-                          child: Text(
-                            'Post',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: _thredController.text.isEmpty
-                                  ? Colors.blue[100]
-                                  : Colors.blue,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
