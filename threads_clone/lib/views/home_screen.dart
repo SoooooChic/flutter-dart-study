@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/gaps.dart';
 import 'package:threads_clone/constants/sizes.dart';
-// import 'package:threads_clone/widgets/border_white.dart';
 import 'package:threads_clone/widgets/go_to_top_button.dart';
 import 'package:threads_clone/widgets/thread.dart';
 

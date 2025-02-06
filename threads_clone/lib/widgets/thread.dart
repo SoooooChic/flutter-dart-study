@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/gaps.dart';
 import 'package:threads_clone/util.dart';
-import 'package:threads_clone/widgets/ellipsis.dart';
+import 'package:threads_clone/views/ellipsis_screen.dart';
 import 'package:threads_clone/widgets/reply_timeline.dart';
-import 'image_carousel.dart';
+import 'package:threads_clone/widgets/image_carousel.dart';
 
 class Thread extends StatelessWidget {
   const Thread({
@@ -16,8 +16,9 @@ class Thread extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       // isScrollControlled: true,
+      // showDragHandle: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => Ellipsis(),
+      builder: (context) => EllipsisScreen(),
     );
   }
 

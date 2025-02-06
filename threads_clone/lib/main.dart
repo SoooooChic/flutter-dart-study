@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:threads_clone/views/main_navigation_screen.dart';
-import 'constants/sizes.dart';
+import 'package:threads_clone/constants/sizes.dart';
 
 void main() {
   runApp(const App());

@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:threads_clone/constants/gaps.dart';
 import 'package:threads_clone/constants/sizes.dart';
-import 'package:threads_clone/widgets/report.dart';
+import 'package:threads_clone/views/report_screen.dart';
 
-class Ellipsis extends StatelessWidget {
-  const Ellipsis({super.key});
+class EllipsisScreen extends StatelessWidget {
+  const EllipsisScreen({super.key});
 
   void _onReportTap(BuildContext context) {
     Navigator.pop(context);
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      // showDragHandle: true,
+      // clipBehavior: Clip.hardEdge,
       backgroundColor: Colors.transparent,
-      builder: (context) => Reports(),
+      builder: (context) => ReportScreen(),
     );
   }
 
@@ -44,9 +46,9 @@ class Ellipsis extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Unfloow',
+                        'Unfollow',
                         style: TextStyle(
-                          fontSize: Sizes.size24,
+                          fontSize: Sizes.size20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -54,7 +56,7 @@ class Ellipsis extends StatelessWidget {
                       Text(
                         'Mute',
                         style: TextStyle(
-                          fontSize: Sizes.size24,
+                          fontSize: Sizes.size20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -78,7 +80,7 @@ class Ellipsis extends StatelessWidget {
                       Text(
                         'Hide',
                         style: TextStyle(
-                          fontSize: Sizes.size24,
+                          fontSize: Sizes.size20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -90,7 +92,7 @@ class Ellipsis extends StatelessWidget {
                         child: Text(
                           'Report',
                           style: TextStyle(
-                            fontSize: Sizes.size24,
+                            fontSize: Sizes.size20,
                             fontWeight: FontWeight.bold,
                             color: Colors.red,
                           ),

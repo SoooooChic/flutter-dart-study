@@ -18,12 +18,23 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  late int _selectedIndex = 0;
+  late int _selectedIndex = 2;
 
   void _onTap(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void _onWriteTap(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      // showDragHandle: true,
+      // clipBehavior: Clip.hardEdge,
+      backgroundColor: Colors.transparent,
+      builder: (context) => WriteScreen(),
+    );
   }
 
   @override
@@ -87,7 +98,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                   isSelected: _selectedIndex == 2,
                   icon: FontAwesomeIcons.penToSquare,
                   selectedIcon: FontAwesomeIcons.solidPenToSquare,
-                  onTap: () => _onTap(2),
+                  onTap: () => _onWriteTap(context),
                   selectedIndex: _selectedIndex,
                 ),
                 NavTab(
