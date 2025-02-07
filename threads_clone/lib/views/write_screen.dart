@@ -22,12 +22,14 @@ class _WriteScreenState extends State<WriteScreen> {
   @override
   void initState() {
     super.initState();
-    _focusNode.requestFocus();
-
     _thredController.addListener(() {
       setState(() {
         _thread = _thredController.text;
       });
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
     });
   }
 
@@ -54,7 +56,7 @@ class _WriteScreenState extends State<WriteScreen> {
         borderRadius: BorderRadius.circular(Sizes.size14),
       ),
       child: Scaffold(
-        resizeToAvoidBottomInset: true, // BottomAppBar 키보드 위로 자동 이동 option1
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           elevation: 1,
           backgroundColor: Colors.white,
