@@ -64,19 +64,15 @@ class _HomeScreenState extends State<HomeScreen> {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    return Stack(
-                      children: [
-                        Column(
-                          children: const [
-                            Thread(),
-                            Gaps.v16,
-                            Divider(
-                              height: 0,
-                              thickness: 1,
-                            ),
-                            Gaps.v16,
-                          ],
+                    return Column(
+                      children: const [
+                        Thread(),
+                        Gaps.v16,
+                        Divider(
+                          height: 0,
+                          thickness: 1,
                         ),
+                        Gaps.v16,
                       ],
                     );
                   },

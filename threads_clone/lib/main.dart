@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:threads_clone/views/activity_screen.dart';
 import 'package:threads_clone/views/main_navigation_screen.dart';
 import 'package:threads_clone/constants/sizes.dart';
-import 'package:threads_clone/views/search_screen.dart';
 
 void main() {
   runApp(const App());

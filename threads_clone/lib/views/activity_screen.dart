@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/sizes.dart';
+import 'package:threads_clone/widgets/activity_users.dart';
 
-final tabs = [
+final List<String> tabs = [
   "All",
   "Replies",
   "Mentions",
@@ -22,7 +22,18 @@ class ActivityScreen extends StatefulWidget {
 }
 
 class _ActivityScreenState extends State<ActivityScreen> {
-  final List<int> followerCounts = List.generate(20, (index) => index * 10);
+  Widget _buildListView(int usersCount) {
+    return ListView.separated(
+      itemCount: usersCount,
+      separatorBuilder: (context, index) => const Padding(
+        padding: EdgeInsets.only(left: 70, right: 10),
+        child: Divider(height: 0, thickness: 1),
+      ),
+      itemBuilder: (context, index) {
+        return const ActivityUsers();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +41,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
       length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
-          // toolbarHeight: 75,
           elevation: 1,
+          centerTitle: false,
           title: Text(
             'Activity',
             style: TextStyle(
@@ -40,7 +51,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
             ),
           ),
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(25), // AppBar 높이 조정
+            preferredSize: const Size.fromHeight(25),
             child: SizedBox(
               height: 40,
               child: TabBar(
@@ -76,91 +87,12 @@ class _ActivityScreenState extends State<ActivityScreen> {
         ),
         body: TabBarView(
           children: [
-            ListView.separated(
-              itemCount: followerCounts.length,
-              separatorBuilder: (context, index) => Padding(
-                padding: EdgeInsets.only(
-                  left: 70,
-                  right: 10,
-                ),
-                child: Divider(
-                  height: 0,
-                  thickness: 1,
-                  color: Colors.grey.shade300,
-                ),
-              ),
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Container(
-                    width: 32,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.blue,
-                    ),
-                    child: const Center(
-                      child: FaIcon(
-                        FontAwesomeIcons.users,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  title: RichText(
-                    text: TextSpan(
-                      text: 'User Name',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  subtitle: RichText(
-                    text: TextSpan(
-                      text: "User Name",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 13,
-                        color: Colors.grey,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: "${followerCounts[index]}K followers",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  trailing: TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      side: const BorderSide(color: Colors.grey),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 4,
-                      ),
-                      minimumSize: const Size(0, 0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: const Text(
-                      "Follow",
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                );
-              },
-            ),
-            Center(child: Text("Replies Content")),
-            Center(child: Text("Mentions Content")),
-            Center(child: Text("Quote Content")),
-            Center(child: Text("Request Content")),
-            Center(child: Text("Repost Content")),
+            _buildListView(20),
+            _buildListView(5),
+            _buildListView(6),
+            _buildListView(7),
+            _buildListView(3),
+            _buildListView(1),
           ],
         ),
       ),

@@ -68,9 +68,7 @@ class Thread extends StatelessWidget {
                           Text("${since}m"),
                           Gaps.h12,
                           GestureDetector(
-                            onTap: () {
-                              _onEllipsisTap(context);
-                            },
+                            onTap: () => _onEllipsisTap(context),
                             child:
                                 const Icon(FontAwesomeIcons.ellipsis, size: 16),
                           )
