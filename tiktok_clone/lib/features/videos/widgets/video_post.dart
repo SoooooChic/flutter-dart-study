@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
@@ -46,6 +47,9 @@ class _VideoPostState extends State<VideoPost>
         VideoPlayerController.asset("assets/videos/video.mp4");
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
+    if (kIsWeb) {
+      await _videoPlayerController.setVolume(0);
+    }
     _videoPlayerController.addListener(_onVideoChange);
     setState(() {});
   }
@@ -67,10 +71,12 @@ class _VideoPostState extends State<VideoPost>
   @override
   void dispose() {
     _videoPlayerController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
+    if (!mounted) return;
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
@@ -114,24 +120,12 @@ class _VideoPostState extends State<VideoPost>
       onVisibilityChanged: _onVisibilityChanged,
       child: Stack(
         children: [
-          // Positioned.fill(
-          //   child: _videoPlayerController.value.isInitialized
-          //       ? VideoPlayer(_videoPlayerController)
-          //       : Container(
-          //           color: Colors.black,
-          //         ),
-          // ),
           Positioned.fill(
             child: _videoPlayerController.value.isInitialized
-                ? FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: _videoPlayerController.value.size.width,
-                      height: _videoPlayerController.value.size.height,
-                      child: VideoPlayer(_videoPlayerController),
-                    ),
-                  )
-                : Container(color: Colors.black),
+                ? VideoPlayer(_videoPlayerController)
+                : Container(
+                    color: Colors.black,
+                  ),
           ),
           Positioned.fill(
             child: GestureDetector(
