@@ -33,12 +33,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverAppBar(
-                title: const Text('니꼬'),
+                title: IconButton(
+                  onPressed: _onGearPressed,
+                  icon: const FaIcon(
+                    FontAwesomeIcons.earthAmericas,
+                    size: Sizes.size20,
+                  ),
+                ),
                 actions: [
                   IconButton(
                     onPressed: _onGearPressed,
                     icon: const FaIcon(
-                      FontAwesomeIcons.gear,
+                      FontAwesomeIcons.instagram,
+                      size: Sizes.size24,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: _onGearPressed,
+                    icon: const FaIcon(
+                      FontAwesomeIcons.linesLeaning,
                       size: Sizes.size20,
                     ),
                   )
@@ -148,27 +161,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     Gaps.v14,
-                    FractionallySizedBox(
-                      widthFactor: 0.33,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: Sizes.size12,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(Sizes.size4),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: Sizes.size12,
+                            horizontal: Sizes.size64,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(Sizes.size4),
+                            ),
+                          ),
+                          child: const Text(
+                            'Follow',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                        child: const Text(
-                          'Follow',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: Sizes.size12,
+                            horizontal: Sizes.size64,
                           ),
-                          textAlign: TextAlign.center,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(Sizes.size4),
+                            ),
+                          ),
+                          child: const Text(
+                            'Follow',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                     Gaps.v14,
                     const Padding(
