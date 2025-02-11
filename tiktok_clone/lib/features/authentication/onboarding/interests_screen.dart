@@ -74,7 +74,7 @@ class _InterestsScreenState extends State<InterestsScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => TutorialScreen(),
+        builder: (context) => const TutorialScreen(),
       ),
     );
   }
@@ -97,8 +97,8 @@ class _InterestsScreenState extends State<InterestsScreen> {
       appBar: AppBar(
         title: AnimatedOpacity(
           opacity: _showTitle ? 1 : 0,
-          duration: Duration(milliseconds: 300),
-          child: Text('Choose your interests'),
+          duration: const Duration(milliseconds: 300),
+          child: const Text("Choose your interests"),
         ),
       ),
       body: Scrollbar(
@@ -106,7 +106,7 @@ class _InterestsScreenState extends State<InterestsScreen> {
         child: SingleChildScrollView(
           controller: _scrollController,
           child: Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               left: Sizes.size24,
               right: Sizes.size24,
               bottom: Sizes.size16,
@@ -115,67 +115,57 @@ class _InterestsScreenState extends State<InterestsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Gaps.v32,
-                Text(
-                  'Choose your interests',
+                const Text(
+                  "Choose your interests",
                   style: TextStyle(
-                    fontSize: Sizes.size36,
+                    fontSize: Sizes.size40,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Gaps.v10,
-                Text(
-                  'Get better video recommendations',
+                Gaps.v20,
+                const Text(
+                  "Get better video recommendations",
                   style: TextStyle(
-                    fontSize: Sizes.size16,
+                    fontSize: Sizes.size20,
                   ),
                 ),
-                Gaps.v64,
-                // wrap 알아서 배치해줌
+                Gaps.v48,
                 Wrap(
-                  // 세로 간격
                   runSpacing: 15,
-                  // 가로 간격
                   spacing: 15,
                   children: [
                     for (var interest in interests)
-                      InterestButton(interest: interest),
+                      InterestButton(interest: interest)
                   ],
-                ),
+                )
               ],
             ),
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 2,
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: Sizes.size12,
-            left: Sizes.size24,
-            // bottom: Sizes.size12,
-            right: Sizes.size24,
-          ),
-          // child: CupertinoButton(
-          //   onPressed: () {},
-          //   color: Theme.of(context).primaryColor,
-          //   child: Text('Next'),
-          // ),
-          child: GestureDetector(
-            onTap: _onNextTap,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                vertical: Sizes.size10,
-              ),
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: Sizes.size16,
-                ),
-                textAlign: TextAlign.center,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(
+          bottom: Sizes.size40,
+          top: Sizes.size16,
+          left: Sizes.size24,
+          right: Sizes.size24,
+        ),
+        child: GestureDetector(
+          onTap: _onNextTap,
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: Sizes.size16 + Sizes.size2,
+            ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+            ),
+            child: const Text(
+              'Next',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: Sizes.size16,
               ),
             ),
           ),
