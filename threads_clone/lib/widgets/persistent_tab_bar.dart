@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/sizes.dart';
 
 class PersistentTabBar extends SliverPersistentHeaderDelegate {
@@ -7,34 +6,31 @@ class PersistentTabBar extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.symmetric(
-          horizontal: BorderSide(
-            color: Colors.grey.shade200,
-            width: 0.5,
-          ),
-        ),
+      color: Colors.white,
+      margin: EdgeInsets.symmetric(
+        // vertical: Sizes.size2,
+        horizontal: Sizes.size10,
       ),
       child: const TabBar(
-        indicatorSize: TabBarIndicatorSize.label,
+        indicatorSize: TabBarIndicatorSize.tab,
         indicatorColor: Colors.black,
         labelPadding: EdgeInsets.symmetric(
           vertical: Sizes.size10,
         ),
         labelColor: Colors.black,
+        splashFactory: NoSplash.splashFactory,
         tabs: [
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: Sizes.size20,
+          Text(
+            'Threads',
+            style: TextStyle(
+              fontSize: 16,
             ),
-            child: Icon(Icons.grid_4x4_rounded),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: Sizes.size20,
+          Text(
+            'Replies',
+            style: TextStyle(
+              fontSize: 16,
             ),
-            child: FaIcon(FontAwesomeIcons.heart),
           ),
         ],
       ),
@@ -42,10 +38,10 @@ class PersistentTabBar extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => 47;
+  double get maxExtent => 43;
 
   @override
-  double get minExtent => 47;
+  double get minExtent => 43;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {

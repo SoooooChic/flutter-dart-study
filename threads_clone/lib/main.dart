@@ -3,8 +3,6 @@ import 'package:threads_clone/views/main_navigation_screen.dart';
 import 'package:threads_clone/constants/sizes.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-
   runApp(const App());
 }
 

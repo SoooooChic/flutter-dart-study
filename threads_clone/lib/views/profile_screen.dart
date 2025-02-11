@@ -1,9 +1,11 @@
+import 'package:faker/faker.dart' as fake;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/gaps.dart';
 import 'package:threads_clone/constants/sizes.dart';
 import 'package:threads_clone/views/setting_screen.dart';
 import 'package:threads_clone/widgets/persistent_tab_bar.dart';
+import 'package:threads_clone/widgets/thread.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -16,6 +18,19 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final faker = fake.Faker();
+  List<String> avatarUrls = [];
+
+  @override
+  void initState() {
+    super.initState();
+    avatarUrls = List.generate(
+      10,
+      (index) =>
+          'https://i.pravatar.cc/150?img=${faker.randomGenerator.integer(70, min: 1)}',
+    );
+  }
+
   void _onGearPressed() {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -35,206 +50,135 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SliverAppBar(
                 title: IconButton(
                   onPressed: _onGearPressed,
-                  icon: const FaIcon(
-                    FontAwesomeIcons.earthAmericas,
+                  icon: Icon(
+                    Icons.language,
                     size: Sizes.size20,
                   ),
                 ),
                 actions: [
                   IconButton(
                     onPressed: _onGearPressed,
-                    icon: const FaIcon(
+                    icon: const Icon(
                       FontAwesomeIcons.instagram,
                       size: Sizes.size24,
                     ),
                   ),
                   IconButton(
                     onPressed: _onGearPressed,
-                    icon: const FaIcon(
-                      FontAwesomeIcons.linesLeaning,
+                    icon: const Icon(
+                      Icons.menu,
                       size: Sizes.size20,
                     ),
                   )
                 ],
               ),
               SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    const CircleAvatar(
-                      radius: 50,
-                      foregroundImage: NetworkImage(
-                          "https://avatars.githubusercontent.com/u/3612017"),
-                      child: Text("니꼬"),
-                    ),
-                    Gaps.v20,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "@니꼬",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: Sizes.size18,
-                          ),
-                        ),
-                        Gaps.h5,
-                        FaIcon(
-                          FontAwesomeIcons.solidCircleCheck,
-                          size: Sizes.size16,
-                          color: Colors.blue.shade500,
-                        )
-                      ],
-                    ),
-                    Gaps.v24,
-                    SizedBox(
-                      height: Sizes.size48,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Sizes.size18,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                "97",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: Sizes.size18,
-                                ),
-                              ),
-                              Gaps.v1,
-                              Text("Following",
-                                  style: TextStyle(
-                                    color: Colors.grey.shade500,
-                                  ))
-                            ],
-                          ),
-                          VerticalDivider(
-                            width: Sizes.size32,
-                            thickness: Sizes.size1,
-                            color: Colors.grey.shade400,
-                            indent: Sizes.size14,
-                            endIndent: Sizes.size14,
-                          ),
-                          Column(
-                            children: [
-                              const Text(
-                                "10M",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: Sizes.size18,
-                                ),
-                              ),
-                              Gaps.v1,
                               Text(
-                                "Followers",
+                                'Jane',
                                 style: TextStyle(
-                                  color: Colors.grey.shade500,
-                                ),
-                              )
-                            ],
-                          ),
-                          VerticalDivider(
-                            width: Sizes.size32,
-                            thickness: Sizes.size1,
-                            color: Colors.grey.shade400,
-                            indent: Sizes.size14,
-                            endIndent: Sizes.size14,
-                          ),
-                          Column(
-                            children: [
-                              const Text(
-                                "194.3M",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
                                   fontSize: Sizes.size18,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              Gaps.v1,
-                              Text(
-                                "Likes",
-                                style: TextStyle(
-                                  color: Colors.grey.shade500,
-                                ),
-                              )
+                              Gaps.v5,
+                              Text('jane_mobbin threads.net'),
                             ],
-                          )
+                          ),
+                          CircleAvatar(
+                            radius: 30,
+                            foregroundImage: NetworkImage(avatarUrls[0]),
+                          ),
                         ],
                       ),
-                    ),
-                    Gaps.v14,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: Sizes.size12,
-                            horizontal: Sizes.size64,
+                      Gaps.v5,
+                      Text('Plant enthusiast!'),
+                      Gaps.v10,
+                      Row(
+                        children: [
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              CircleAvatar(
+                                foregroundImage: NetworkImage(avatarUrls[1]),
+                                radius: 9,
+                              ),
+                              Positioned(
+                                right: -15,
+                                child: CircleAvatar(
+                                  foregroundImage: NetworkImage(avatarUrls[2]),
+                                  radius: 9,
+                                ),
+                              ),
+                            ],
                           ),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(Sizes.size4),
-                            ),
-                          ),
-                          child: const Text(
-                            'Follow',
+                          Gaps.h24,
+                          Text(
+                            '2 followers',
                             style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: Sizes.size12,
-                            horizontal: Sizes.size64,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(Sizes.size4),
+                              color: Colors.grey,
                             ),
                           ),
-                          child: const Text(
-                            'Follow',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Gaps.v14,
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: Sizes.size32,
+                        ],
                       ),
-                      child: Text(
-                        "All highlights and where to watch live matches on FIFA+ I wonder how it would loook",
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Gaps.v14,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        FaIcon(
-                          FontAwesomeIcons.link,
-                          size: Sizes.size12,
-                        ),
-                        Gaps.h4,
-                        Text(
-                          "https://nomadcoders.co",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
+                      Gaps.v14,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 6),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey.shade500),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                "Edit profile",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Gaps.v20,
-                  ],
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 6),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                "Share profile",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Gaps.v10,
+                    ],
+                  ),
                 ),
               ),
               SliverPersistentHeader(
@@ -245,29 +189,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
           body: TabBarView(
             children: [
-              GridView.builder(
-                itemCount: 20,
-                padding: EdgeInsets.zero,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: Sizes.size2,
-                  mainAxisSpacing: Sizes.size2,
-                  childAspectRatio: 9 / 14,
-                ),
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 9 / 14,
-                      child: Image.network(
-                        fit: BoxFit.cover,
-                        "https://images.unsplash.com/photo-1673844969019-c99b0c933e90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
+              ListView.builder(
+                padding: EdgeInsets.only(top: 20),
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: const [
+                      Thread(),
+                      Gaps.v16,
+                      Divider(
+                        height: 0,
+                        thickness: 1,
                       ),
-                    ),
-                  ],
-                ),
+                      Gaps.v16,
+                    ],
+                  );
+                },
               ),
-              const Center(
-                child: Text('Page two'),
+              ListView.builder(
+                padding: EdgeInsets.only(top: 20),
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: const [
+                      Thread(),
+                      Gaps.v16,
+                      Divider(
+                        height: 0,
+                        thickness: 1,
+                      ),
+                      Gaps.v16,
+                    ],
+                  );
+                },
               ),
             ],
           ),
