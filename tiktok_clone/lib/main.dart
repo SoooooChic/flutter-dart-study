@@ -5,6 +5,8 @@ import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/generated/l10n.dart';
 import 'package:tiktok_clone/router.dart';
 
+// /Applications/Android Studio.app/Contents/jbr/Contents/Home
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
