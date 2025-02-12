@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/gaps.dart';
 import 'package:threads_clone/constants/sizes.dart';
+import 'package:threads_clone/views/camera_screen.dart';
 
 class WriteScreen extends StatefulWidget {
   const WriteScreen({super.key});
@@ -44,6 +45,14 @@ class _WriteScreenState extends State<WriteScreen> {
     if (_thread.isNotEmpty) {
       Navigator.of(context).pop();
     }
+  }
+
+  void _onTabPaperClip() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const CameraScreen(),
+      ),
+    );
   }
 
   @override
@@ -157,8 +166,9 @@ class _WriteScreenState extends State<WriteScreen> {
                           ),
                         ),
                         Gaps.v20,
-                        FaIcon(
-                          FontAwesomeIcons.paperclip,
+                        IconButton(
+                          onPressed: () => _onTabPaperClip,
+                          icon: Icon(FontAwesomeIcons.paperclip),
                           color: Colors.grey,
                         ),
                       ],
