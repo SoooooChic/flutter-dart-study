@@ -16,7 +16,7 @@ class WriteScreen extends StatefulWidget {
 
 class _WriteScreenState extends State<WriteScreen> {
   final TextEditingController _thredController = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
+  // final FocusNode _focusNode = FocusNode();
 
   String _thread = '';
 
@@ -29,15 +29,15 @@ class _WriteScreenState extends State<WriteScreen> {
       });
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _focusNode.requestFocus();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   _focusNode.requestFocus();
+    // });
   }
 
   @override
   void dispose() {
     _thredController.dispose();
-    _focusNode.dispose();
+    // _focusNode.dispose();
     super.dispose();
   }
 
@@ -147,7 +147,7 @@ class _WriteScreenState extends State<WriteScreen> {
                           height: Sizes.size44,
                           child: TextField(
                             controller: _thredController,
-                            focusNode: _focusNode,
+                            // focusNode: _focusNode,
                             minLines: null,
                             maxLines: null,
                             textInputAction: TextInputAction.newline,
@@ -167,7 +167,7 @@ class _WriteScreenState extends State<WriteScreen> {
                         ),
                         Gaps.v20,
                         IconButton(
-                          onPressed: () => _onTabPaperClip,
+                          onPressed: () => _onTabPaperClip(),
                           icon: Icon(FontAwesomeIcons.paperclip),
                           color: Colors.grey,
                         ),
