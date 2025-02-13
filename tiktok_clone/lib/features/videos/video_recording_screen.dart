@@ -59,18 +59,40 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   void dispose() {
     _progressAnimationController.dispose();
     _buttonAnimationController.dispose();
-    _cameraController.dispose();
+    if (_cameraController.value.isInitialized) {
+      _cameraController.dispose();
+    }
     super.dispose();
   }
 
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   if (!_hasPermission) return;
+  //   if (!_cameraController.value.isInitialized) return;
+  //   if (state == AppLifecycleState.inactive) {
+  //     _cameraController.dispose();
+  //   } else if (state == AppLifecycleState.resumed) {
+  //     initCamera();
+  //   }
+  // }
+
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (!_hasPermission) return;
-    if (!_cameraController.value.isInitialized) return;
-    if (state == AppLifecycleState.inactive) {
-      _cameraController.dispose();
-    } else if (state == AppLifecycleState.resumed) {
-      initCamera();
+    switch (state) {
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+        if (_cameraController.value.isInitialized) {
+          await _cameraController.dispose();
+        }
+        break;
+
+      case AppLifecycleState.resumed:
+        await initCamera(); // 카메라 재초기화
+        break;
+
+      default:
+        break;
     }
   }
 
@@ -180,6 +202,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
       backgroundColor: Colors.black,
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         child: !_hasPermission || !_cameraController.value.isInitialized
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

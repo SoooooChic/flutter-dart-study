@@ -1,10 +1,9 @@
 import 'dart:io';
-
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:video_player/video_player.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
 class VideoPreviewScreen extends StatefulWidget {
   final XFile video;
@@ -21,8 +20,8 @@ class VideoPreviewScreen extends StatefulWidget {
 }
 
 class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
-  late final VideoPlayerController _videoPlayerController;
-
+  VideoPlayerController? _videoPlayerController;
+  bool _isInitialized = false;
   bool _savedVideo = false;
 
   Future<void> _initVideo() async {
@@ -30,11 +29,13 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
       File(widget.video.path),
     );
 
-    await _videoPlayerController.initialize();
-    await _videoPlayerController.setLooping(true);
-    await _videoPlayerController.play();
+    await _videoPlayerController!.initialize();
+    await _videoPlayerController!.setLooping(true);
+    await _videoPlayerController!.play();
 
-    setState(() {});
+    setState(() {
+      _isInitialized = true;
+    });
   }
 
   @override
@@ -43,25 +44,22 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
     _initVideo();
   }
 
-  // Future<void> _saveToGallery() async {
-  //   if (_savedVideo) return;
-  //   await GallerySaver.saveVideo(
-  //     widget.video.path,
-  //     albumName: "TikTok Clone!",
-  //   );
-  //   _savedVideo = true;
-  //   setState(() {});
-  // }
-
   Future<void> _saveToGallery() async {
     if (_savedVideo) return;
 
     final result = await ImageGallerySaver.saveFile(widget.video.path);
 
     if (result['isSuccess']) {
-      _savedVideo = true;
-      setState(() {});
+      setState(() {
+        _savedVideo = true;
+      });
     }
+  }
+
+  @override
+  void dispose() {
+    _videoPlayerController?.dispose();
+    super.dispose();
   }
 
   @override
@@ -82,9 +80,14 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
             )
         ],
       ),
-      body: _videoPlayerController.value.isInitialized
-          ? VideoPlayer(_videoPlayerController)
-          : null,
+      body: Center(
+        child: _isInitialized
+            ? AspectRatio(
+                aspectRatio: _videoPlayerController!.value.aspectRatio,
+                child: VideoPlayer(_videoPlayerController!),
+              )
+            : const CircularProgressIndicator(), // 초기화 중이면 로딩 표시
+      ),
     );
   }
 }

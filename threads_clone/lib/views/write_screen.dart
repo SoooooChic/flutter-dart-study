@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/gaps.dart';
@@ -19,6 +21,7 @@ class _WriteScreenState extends State<WriteScreen> {
   // final FocusNode _focusNode = FocusNode();
 
   String _thread = '';
+  String _selectedImage = '';
 
   @override
   void initState() {
@@ -47,12 +50,17 @@ class _WriteScreenState extends State<WriteScreen> {
     }
   }
 
-  void _onTabPaperClip() {
-    Navigator.of(context).push(
+  void _onTabPaperClip() async {
+    final String? imagePath = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const CameraScreen(),
       ),
     );
+
+    if (imagePath != null) {
+      _selectedImage = imagePath;
+      setState(() {});
+    }
   }
 
   @override
@@ -166,6 +174,31 @@ class _WriteScreenState extends State<WriteScreen> {
                           ),
                         ),
                         Gaps.v20,
+                        if (_selectedImage.isNotEmpty)
+                          Stack(
+                            children: [
+                              Image.file(
+                                File(_selectedImage),
+                                width: 300,
+                                height: 300,
+                                fit: BoxFit.cover,
+                              ),
+                              Positioned(
+                                right: 0,
+                                top: 0,
+                                child: IconButton(
+                                  onPressed: () {
+                                    _selectedImage = '';
+                                    setState(() {});
+                                  },
+                                  icon: FaIcon(
+                                    FontAwesomeIcons.circleXmark,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         IconButton(
                           onPressed: () => _onTabPaperClip(),
                           icon: Icon(FontAwesomeIcons.paperclip),
