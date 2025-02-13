@@ -35,27 +35,22 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _initializeCamera() async {
-    try {
-      _cameras = await availableCameras();
-      if (_cameras == null || _cameras!.isEmpty) {
-        print("카메라를 찾을 수 없습니다.");
-        return;
-      }
-
-      _cameraController = CameraController(
-        _isBackCamera ? _cameras!.first : _cameras!.last,
-        ResolutionPreset.high,
-      );
-
-      await _cameraController!.initialize();
-      if (!mounted) return;
-
-      setState(() {
-        _isCameraInitialized = true;
-      });
-    } catch (e) {
-      print("카메라 초기화 오류: $e");
+    _cameras = await availableCameras();
+    if (_cameras == null || _cameras!.isEmpty) {
+      return;
     }
+
+    _cameraController = CameraController(
+      _isBackCamera ? _cameras!.first : _cameras!.last,
+      ResolutionPreset.high,
+    );
+
+    await _cameraController!.initialize();
+    if (!mounted) return;
+
+    setState(() {
+      _isCameraInitialized = true;
+    });
   }
 
   /// 📌 사진 촬영
@@ -63,32 +58,18 @@ class _CameraScreenState extends State<CameraScreen> {
     if (_cameraController == null || !_cameraController!.value.isInitialized)
       return;
 
-    try {
-      final XFile photo = await _cameraController!.takePicture();
-      print("사진 저장됨: ${photo.path}");
-      Navigator.pop(context, photo.path); // ✅ 선택한 이미지 경로 반환
-
-      // TODO: 촬영 후 동작 추가 (예: 결과 페이지로 이동)
-    } catch (e) {
-      print("사진 촬영 오류: $e");
-    }
+    final XFile photo = await _cameraController!.takePicture();
+    Navigator.pop(context, photo.path);
   }
 
   Future<void> _pickImageFromGallery() async {
-    if (_isPicking) return; // ✅ 실행 중이면 다시 실행하지 않음
+    if (_isPicking) return;
     _isPicking = true;
 
-    try {
-      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-      if (image != null) {
-        Navigator.pop(context, image.path); // ✅ 선택한 이미지 경로 반환
-        print("선택한 이미지: ${image.path}");
-        // TODO: 선택 후 동작 추가 (예: 결과 페이지로 이동)
-      }
-    } catch (e) {
-      print("이미지 선택 오류: $e");
-    } finally {
-      _isPicking = false; // ✅ 실행 완료 후 해제
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      Navigator.pop(context, image.path);
     }
   }
 
