@@ -174,50 +174,52 @@ class _WriteScreenState extends State<WriteScreen> {
                         ),
                         Gaps.v20,
                         if (_selectedImages.isNotEmpty)
-                          SizedBox(
-                            height: 200,
-                            child: Expanded(
-                              child: SizedBox(
-                                height: 200,
-                                child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: _selectedImages.length,
-                                  separatorBuilder: (context, index) =>
-                                      const SizedBox(width: Sizes.size8),
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Stack(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                              Sizes.size16),
-                                          child: Image.file(
-                                            File(_selectedImages[index]),
-                                            height: 200,
-                                            // fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 0,
-                                          top: 0,
-                                          child: IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                _selectedImages.removeAt(index);
-                                              });
-                                            },
-                                            icon: const Icon(
-                                              Icons.cancel,
-                                              color: Colors.grey,
+                          Row(
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: 200,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: _selectedImages.length,
+                                    separatorBuilder: (context, index) =>
+                                        const SizedBox(width: Sizes.size8),
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Stack(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                                Sizes.size16),
+                                            child: Image.file(
+                                              File(_selectedImages[index]),
+                                              height: 200,
+                                              // fit: BoxFit.cover,
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    );
-                                  },
+                                          Positioned(
+                                            right: 0,
+                                            top: 0,
+                                            child: IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  _selectedImages
+                                                      .removeAt(index);
+                                                });
+                                              },
+                                              icon: const Icon(
+                                                Icons.cancel,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
                         IconButton(
                           onPressed: () => _onTabPaperClip(),
