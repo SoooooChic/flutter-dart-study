@@ -9,10 +9,11 @@ class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
 
   @override
-  _CameraScreenState createState() => _CameraScreenState();
+  State<CameraScreen> createState() => _CameraScreenState();
 }
 
-class _CameraScreenState extends State<CameraScreen> {
+class _CameraScreenState extends State<CameraScreen>
+    with WidgetsBindingObserver {
   CameraController? _cameraController;
   List<CameraDescription>? _cameras;
   bool _isCameraInitialized = false;
@@ -25,6 +26,14 @@ class _CameraScreenState extends State<CameraScreen> {
   void initState() {
     super.initState();
     _checkPermissionsAndInit();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    _cameraController?.dispose();
+    WidgetsBinding.instance.addObserver(this);
+    super.dispose();
   }
 
   Future<void> _checkPermissionsAndInit() async {
@@ -36,40 +45,54 @@ class _CameraScreenState extends State<CameraScreen> {
 
   Future<void> _initializeCamera() async {
     _cameras = await availableCameras();
+
     if (_cameras == null || _cameras!.isEmpty) {
       return;
     }
 
     _cameraController = CameraController(
       _isBackCamera ? _cameras!.first : _cameras!.last,
-      ResolutionPreset.high,
+      ResolutionPreset.ultraHigh,
+      enableAudio: false,
     );
 
     await _cameraController!.initialize();
+
     if (!mounted) return;
 
-    setState(() {
-      _isCameraInitialized = true;
-    });
+    _isCameraInitialized = true;
+
+    setState(() {});
   }
 
-  /// 📌 사진 촬영
   Future<void> _takePhoto() async {
-    if (_cameraController == null || !_cameraController!.value.isInitialized)
+    if (_cameraController == null || !_cameraController!.value.isInitialized) {
       return;
+    }
 
     final XFile photo = await _cameraController!.takePicture();
-    Navigator.pop(context, photo.path);
+
+    if (mounted) {
+      Navigator.pop(context, [photo.path]);
+    }
   }
 
   Future<void> _pickImageFromGallery() async {
     if (_isPicking) return;
     _isPicking = true;
 
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    // final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    // if (image != null && mounted) {
+    //   Navigator.pop(context, image.path);
+    // }
 
-    if (image != null) {
-      Navigator.pop(context, image.path);
+    final List<XFile> images = await _picker.pickMultiImage();
+
+    _isPicking = false; // 선택이 끝나면 다시 false로 변경
+
+    if (images.isNotEmpty && mounted) {
+      List<String> imagePaths = images.map((image) => image.path).toList();
+      Navigator.pop(context, imagePaths);
     }
   }
 
@@ -89,12 +112,6 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   @override
-  void dispose() {
-    _cameraController?.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
@@ -104,7 +121,7 @@ class _CameraScreenState extends State<CameraScreen> {
             child: _isCameraInitialized && _cameraController != null
                 ? CameraPreview(_cameraController!)
                 : const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator.adaptive(),
                   ),
           ),
           Positioned(

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/gaps.dart';
@@ -21,7 +20,7 @@ class _WriteScreenState extends State<WriteScreen> {
   // final FocusNode _focusNode = FocusNode();
 
   String _thread = '';
-  String _selectedImage = '';
+  final List<String> _selectedImages = [];
 
   @override
   void initState() {
@@ -51,14 +50,14 @@ class _WriteScreenState extends State<WriteScreen> {
   }
 
   void _onTabPaperClip() async {
-    final String? imagePath = await Navigator.of(context).push(
+    final List<String>? imagePaths = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const CameraScreen(),
       ),
     );
 
-    if (imagePath != null) {
-      _selectedImage = imagePath;
+    if (imagePaths != null && imagePaths.isNotEmpty) {
+      _selectedImages.addAll(imagePaths);
       setState(() {});
     }
   }
@@ -174,30 +173,51 @@ class _WriteScreenState extends State<WriteScreen> {
                           ),
                         ),
                         Gaps.v20,
-                        if (_selectedImage.isNotEmpty)
-                          Stack(
-                            children: [
-                              Image.file(
-                                File(_selectedImage),
-                                width: 300,
-                                height: 300,
-                                fit: BoxFit.cover,
-                              ),
-                              Positioned(
-                                right: 0,
-                                top: 0,
-                                child: IconButton(
-                                  onPressed: () {
-                                    _selectedImage = '';
-                                    setState(() {});
+                        if (_selectedImages.isNotEmpty)
+                          SizedBox(
+                            height: 200,
+                            child: Expanded(
+                              child: SizedBox(
+                                height: 200,
+                                child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: _selectedImages.length,
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(width: Sizes.size8),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                              Sizes.size16),
+                                          child: Image.file(
+                                            File(_selectedImages[index]),
+                                            height: 200,
+                                            // fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        Positioned(
+                                          right: 0,
+                                          top: 0,
+                                          child: IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                _selectedImages.removeAt(index);
+                                              });
+                                            },
+                                            icon: const Icon(
+                                              Icons.cancel,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
                                   },
-                                  icon: FaIcon(
-                                    FontAwesomeIcons.circleXmark,
-                                    color: Colors.grey,
-                                  ),
                                 ),
                               ),
-                            ],
+                            ),
                           ),
                         IconButton(
                           onPressed: () => _onTabPaperClip(),
