@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/gaps.dart';
 import 'package:threads_clone/constants/sizes.dart';
+import 'package:threads_clone/util.dart';
 import 'package:threads_clone/views/setting_screen.dart';
 import 'package:threads_clone/widgets/persistent_tab_bar.dart';
 import 'package:threads_clone/widgets/thread.dart';
@@ -41,38 +42,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: DefaultTabController(
-        length: 2,
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              SliverAppBar(
-                title: IconButton(
+    final isDark = isDarkMode(context);
+
+    return DefaultTabController(
+      length: 2,
+      child: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              title: IconButton(
+                onPressed: _onGearPressed,
+                icon: Icon(
+                  Icons.language,
+                  size: Sizes.size20,
+                ),
+              ),
+              actions: [
+                IconButton(
                   onPressed: _onGearPressed,
-                  icon: Icon(
-                    Icons.language,
-                    size: Sizes.size20,
+                  icon: const Icon(
+                    FontAwesomeIcons.instagram,
+                    size: Sizes.size24,
                   ),
                 ),
-                actions: [
-                  IconButton(
-                    onPressed: _onGearPressed,
-                    icon: const Icon(
-                      FontAwesomeIcons.instagram,
-                      size: Sizes.size24,
-                    ),
+                IconButton(
+                  onPressed: _onGearPressed,
+                  icon: const Icon(
+                    Icons.menu,
+                    size: Sizes.size20,
                   ),
-                  IconButton(
-                    onPressed: _onGearPressed,
-                    icon: const Icon(
-                      Icons.menu,
-                      size: Sizes.size20,
-                    ),
-                  )
-                ],
-              ),
-              SliverToBoxAdapter(
+                )
+              ],
+            ),
+            SliverToBoxAdapter(
+              child: Container(
+                color: isDark ? Colors.black : Colors.white,
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: Sizes.size18,
@@ -150,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                                  // color: Colors.black,
                                 ),
                               ),
                             ),
@@ -169,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                                  // color: Colors.black,
                                 ),
                               ),
                             ),
@@ -181,15 +185,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              SliverPersistentHeader(
-                delegate: PersistentTabBar(),
-                pinned: true,
-              ),
-            ];
-          },
-          body: TabBarView(
-            children: [
-              ListView.builder(
+            ),
+            SliverPersistentHeader(
+              delegate: PersistentTabBar(),
+              pinned: true,
+            ),
+          ];
+        },
+        body: TabBarView(
+          children: [
+            Container(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              child: ListView.builder(
                 padding: EdgeInsets.only(top: 20),
                 itemCount: 10,
                 itemBuilder: (context, index) {
@@ -206,7 +213,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   );
                 },
               ),
-              ListView.builder(
+            ),
+            Container(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              child: ListView.builder(
                 padding: EdgeInsets.only(top: 20),
                 itemCount: 10,
                 itemBuilder: (context, index) {
@@ -223,8 +233,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   );
                 },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

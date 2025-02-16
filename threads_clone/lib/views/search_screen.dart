@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:faker/faker.dart';
 import 'package:threads_clone/constants/sizes.dart';
 import 'package:threads_clone/model/user_model.dart';
+import 'package:threads_clone/util.dart';
 import 'package:threads_clone/widgets/search_users.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -64,41 +65,42 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          elevation: 1,
-          centerTitle: false,
-          title: Text(
-            'Search',
-            style: TextStyle(
-              fontSize: Sizes.size28,
-              fontWeight: FontWeight.w700,
-            ),
-            textAlign: TextAlign.left,
+    final isDark = isDarkMode(context);
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        elevation: 1,
+        centerTitle: false,
+        title: Text(
+          'Search',
+          style: TextStyle(
+            fontSize: Sizes.size28,
+            fontWeight: FontWeight.w700,
           ),
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(50),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CupertinoSearchTextField(
-                controller: _textEditingController,
-                onChanged: _onSearchChanged,
-              ),
+          textAlign: TextAlign.left,
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CupertinoSearchTextField(
+              controller: _textEditingController,
+              onChanged: _onSearchChanged,
+              style: TextStyle(color: isDark ? Colors.white : Colors.black),
             ),
           ),
         ),
-        body: ListView.separated(
-          itemCount: _filteredUsers.length,
-          separatorBuilder: (context, index) => const Padding(
-            padding: EdgeInsets.only(left: 70, right: 10),
-            child: Divider(height: 0, thickness: 1),
-          ),
-          itemBuilder: (context, index) {
-            return SearchUser(user: _filteredUsers[index]);
-          },
+      ),
+      body: ListView.separated(
+        itemCount: _filteredUsers.length,
+        separatorBuilder: (context, index) => const Padding(
+          padding: EdgeInsets.only(left: 70, right: 10),
+          child: Divider(height: 0, thickness: 1),
         ),
+        itemBuilder: (context, index) {
+          return SearchUser(user: _filteredUsers[index]);
+        },
       ),
     );
   }

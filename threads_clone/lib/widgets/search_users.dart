@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:threads_clone/constants/sizes.dart';
 import 'package:threads_clone/model/user_model.dart';
+import 'package:threads_clone/util.dart';
 
 class SearchUser extends StatelessWidget {
   final UserModel user;
@@ -12,6 +13,8 @@ class SearchUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
+
     return ListTile(
       leading: CircleAvatar(
         foregroundImage: NetworkImage(user.avatarUrl),
@@ -55,10 +58,10 @@ class SearchUser extends StatelessWidget {
                 ),
               Text(
                 " ${user.followers}K followers",
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: Sizes.size14,
-                  color: Colors.black,
+                  color: isDark ? Colors.white : Colors.black,
                 ),
               ),
             ],
@@ -79,9 +82,13 @@ class SearchUser extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
         ),
-        child: const Text(
+        child: Text(
           "Follow",
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: isDark ? Colors.white : Colors.black,
+          ),
         ),
       ),
     );

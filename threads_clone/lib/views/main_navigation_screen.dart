@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/sizes.dart';
+import 'package:threads_clone/util.dart';
 import 'package:threads_clone/views/home_screen.dart';
 import 'package:threads_clone/views/activity_screen.dart';
 import 'package:threads_clone/views/profile_screen.dart';
@@ -37,6 +38,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -65,7 +68,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ],
       ),
       bottomNavigationBar: Container(
-        color: Colors.white,
+        color: isDark ? Colors.black : Colors.white,
         child: Padding(
           padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).padding.bottom + Sizes.size12,

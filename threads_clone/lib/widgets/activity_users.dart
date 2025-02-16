@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/gaps.dart';
 import 'package:threads_clone/constants/sizes.dart';
+import 'package:threads_clone/util.dart';
 
 final List<Map<String, dynamic>> avatarAddIcons = [
   {
@@ -46,6 +47,7 @@ class ActivityUsers extends StatelessWidget {
     final hours = random.integer(24);
     final avatarUrl = 'https://i.pravatar.cc/150?img=${random.integer(60)}';
     final avatarIndex = random.integer(5);
+    final isDark = isDarkMode(context);
 
     return ListTile(
       leading: Stack(
@@ -84,9 +86,10 @@ class ActivityUsers extends StatelessWidget {
       title: RichText(
         text: TextSpan(
           text: userId,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.w600,
-            color: Colors.black,
+            // color: Colors.black,
+            color: isDark ? Colors.white : Colors.black,
             fontSize: 13,
           ),
           children: [
@@ -118,10 +121,11 @@ class ActivityUsers extends StatelessWidget {
             Gaps.v5,
             Text(
               contentBottom,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: Sizes.size14,
-                color: Colors.black,
+                // color: Colors.black,
+                color: isDark ? Colors.white : Colors.black,
               ),
               maxLines: 2,
             )

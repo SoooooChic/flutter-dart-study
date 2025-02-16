@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:threads_clone/constants/sizes.dart';
+import 'package:threads_clone/util.dart';
 import 'package:threads_clone/widgets/activity_users.dart';
 
 final List<String> tabs = [
@@ -37,6 +38,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
+
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
@@ -68,11 +71,11 @@ class _ActivityScreenState extends State<ActivityScreen> {
                 ),
                 tabAlignment: TabAlignment.center,
                 indicator: BoxDecoration(
-                  color: Colors.black,
+                  color: isDark ? Colors.white : Colors.black,
                   borderRadius: BorderRadius.circular(Sizes.size8),
                 ),
-                labelColor: Colors.white,
-                unselectedLabelColor: Colors.black,
+                labelColor: isDark ? Colors.black : Colors.white,
+                // unselectedLabelColor: isDark ? Colors.white : Colors.black,
                 indicatorSize: TabBarIndicatorSize.tab,
                 dividerColor: Colors.transparent,
                 labelPadding: EdgeInsets.symmetric(
