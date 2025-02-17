@@ -1,30 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:threads_clone/constants/sizes.dart';
 import 'package:threads_clone/util.dart';
-import 'package:threads_clone/views/home_screen.dart';
 import 'package:threads_clone/views/activity_screen.dart';
 import 'package:threads_clone/views/profile_screen.dart';
 import 'package:threads_clone/views/search_screen.dart';
-import 'package:threads_clone/views/write_screen.dart';
 import 'package:threads_clone/widgets/nav_tab.dart';
+import 'package:threads_clone/views/write_screen.dart';
 
-class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({
-    super.key,
-  });
+class MainNavigationScreen extends StatelessWidget {
+  final Widget child;
 
-  @override
-  State<MainNavigationScreen> createState() => _MainNavigationScreenState();
-}
+  const MainNavigationScreen({super.key, required this.child});
 
-class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  late int _selectedIndex = 0;
+  static const List<String> _routes = [
+    '/',
+    SearchScreen.routeURL,
+    '',
+    ActivityScreen.routeURL,
+    ProfileScreen.routeURL,
+  ];
 
-  void _onTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  void _onTap(BuildContext context, int index) {
+    if (_routes[index].isNotEmpty) {
+      context.go(_routes[index]);
+    }
+  }
+
+  int _getSelectedIndex(BuildContext context) {
+    final location = GoRouterState.of(context).uri.toString();
+    return _routes.indexOf(location).clamp(0, _routes.length - 1);
   }
 
   void _onWriteTap(BuildContext context) {
@@ -32,41 +38,19 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => WriteScreen(),
+      builder: (context) => const WriteScreen(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final isDark = isDarkMode(context);
+    final selectedIndex = _getSelectedIndex(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          Offstage(
-            offstage: _selectedIndex != 0,
-            child: const HomeScreen(),
-          ),
-          Offstage(
-            offstage: _selectedIndex != 1,
-            child: const SearchScreen(),
-          ),
-          Offstage(
-            offstage: _selectedIndex != 2,
-            child: const WriteScreen(),
-          ),
-          Offstage(
-            offstage: _selectedIndex != 3,
-            child: const ActivityScreen(),
-          ),
-          Offstage(
-            offstage: _selectedIndex != 4,
-            child: const ProfileScreen(),
-          ),
-        ],
-      ),
+      body: child,
       bottomNavigationBar: Container(
         color: isDark ? Colors.black : Colors.white,
         child: Padding(
@@ -80,43 +64,43 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               children: [
                 NavTab(
                   text: "Home",
-                  isSelected: _selectedIndex == 0,
+                  isSelected: selectedIndex == 0,
                   icon: FontAwesomeIcons.house,
                   selectedIcon: FontAwesomeIcons.house,
-                  onTap: () => _onTap(0),
-                  selectedIndex: _selectedIndex,
+                  onTap: () => _onTap(context, 0),
+                  selectedIndex: selectedIndex,
                 ),
                 NavTab(
                   text: "Search",
-                  isSelected: _selectedIndex == 1,
+                  isSelected: selectedIndex == 1,
                   icon: FontAwesomeIcons.magnifyingGlass,
                   selectedIcon: FontAwesomeIcons.magnifyingGlass,
-                  onTap: () => _onTap(1),
-                  selectedIndex: _selectedIndex,
+                  onTap: () => _onTap(context, 1),
+                  selectedIndex: selectedIndex,
                 ),
                 NavTab(
                   text: "Write",
-                  isSelected: _selectedIndex == 2,
+                  isSelected: false,
                   icon: FontAwesomeIcons.penToSquare,
                   selectedIcon: FontAwesomeIcons.solidPenToSquare,
                   onTap: () => _onWriteTap(context),
-                  selectedIndex: _selectedIndex,
+                  selectedIndex: selectedIndex,
                 ),
                 NavTab(
                   text: "Activity",
-                  isSelected: _selectedIndex == 3,
+                  isSelected: selectedIndex == 3,
                   icon: FontAwesomeIcons.heart,
                   selectedIcon: FontAwesomeIcons.solidHeart,
-                  onTap: () => _onTap(3),
-                  selectedIndex: _selectedIndex,
+                  onTap: () => _onTap(context, 3),
+                  selectedIndex: selectedIndex,
                 ),
                 NavTab(
                   text: "Profile",
-                  isSelected: _selectedIndex == 4,
+                  isSelected: selectedIndex == 4,
                   icon: FontAwesomeIcons.user,
                   selectedIcon: FontAwesomeIcons.solidUser,
-                  onTap: () => _onTap(4),
-                  selectedIndex: _selectedIndex,
+                  onTap: () => _onTap(context, 4),
+                  selectedIndex: selectedIndex,
                 ),
               ],
             ),

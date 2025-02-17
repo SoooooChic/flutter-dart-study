@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/sizes.dart';
+import 'package:threads_clone/views/setting_screen.dart';
 
 class PrivacyScreen extends StatefulWidget {
   const PrivacyScreen({super.key});
 
-  static const String routeURL = '/profile';
-  static const String routeName = 'profile';
+  static const String routeURL = '${SettingScreen.routeURL}/privacy';
+  static const String routeName = '${SettingScreen.routeName}/privacy';
 
   @override
   State<PrivacyScreen> createState() => _SettingScreenState();

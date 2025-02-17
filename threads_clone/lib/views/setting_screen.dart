@@ -1,20 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:threads_clone/views/privacy_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
 
-  static const String routeURL = '/profile';
-  static const String routeName = 'profile';
+  static const String routeURL = '/setting';
+  static const String routeName = 'setting';
 
   void _onTapPrivacy(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const PrivacyScreen(),
-      ),
-    );
+    context.pushNamed('setting/privacy');
+    // context.push('/setting/privacy');
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => const PrivacyScreen(),
+    //   ),
+    // );
   }
 
   @override

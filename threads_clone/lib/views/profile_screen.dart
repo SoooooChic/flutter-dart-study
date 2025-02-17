@@ -1,10 +1,10 @@
 import 'package:faker/faker.dart' as fake;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:threads_clone/constants/gaps.dart';
 import 'package:threads_clone/constants/sizes.dart';
 import 'package:threads_clone/util.dart';
-import 'package:threads_clone/views/setting_screen.dart';
 import 'package:threads_clone/widgets/persistent_tab_bar.dart';
 import 'package:threads_clone/widgets/thread.dart';
 
@@ -32,12 +32,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void _onGearPressed() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const SettingScreen(),
-      ),
-    );
+  void _onGearPressed(BuildContext context) {
+    context.pushNamed('setting');
+    // context.push('/setting');
+    //context.push('/setting');
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => const SettingScreen(),
+    //   ),
+    // );
   }
 
   @override
@@ -51,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           return [
             SliverAppBar(
               title: IconButton(
-                onPressed: _onGearPressed,
+                onPressed: () {},
                 icon: Icon(
                   Icons.language,
                   size: Sizes.size20,
@@ -59,14 +62,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               actions: [
                 IconButton(
-                  onPressed: _onGearPressed,
+                  onPressed: () {},
                   icon: const Icon(
                     FontAwesomeIcons.instagram,
                     size: Sizes.size24,
                   ),
                 ),
                 IconButton(
-                  onPressed: _onGearPressed,
+                  onPressed: () => _onGearPressed(context),
                   icon: const Icon(
                     Icons.menu,
                     size: Sizes.size20,

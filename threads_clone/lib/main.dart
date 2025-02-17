@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:threads_clone/views/main_navigation_screen.dart';
+import 'package:go_router/go_router.dart';
+// import 'package:threads_clone/views/main_navigation_screen.dart';
 import 'package:threads_clone/constants/sizes.dart';
+import 'package:threads_clone/router.dart';
 
 void main() {
+  GoRouter.optionURLReflectsImperativeAPIs = true;
   runApp(const App());
 }
 
@@ -11,10 +14,11 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const MainNavigationScreen(),
+    return MaterialApp.router(
+      routerConfig: router,
+      // home: const MainNavigationScreen(),
       title: 'Threads',
-      themeMode: ThemeMode.system, // 시스템 설정에 따라 테마 변경
+      themeMode: ThemeMode.system,
       theme: ThemeData(
         useMaterial3: true,
         textTheme: Typography.blackMountainView,
