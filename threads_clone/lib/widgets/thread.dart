@@ -17,7 +17,7 @@ class Thread extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       builder: (context) => EllipsisScreen(),
     );
   }

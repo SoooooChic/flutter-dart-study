@@ -13,7 +13,7 @@ class EllipsisScreen extends StatelessWidget {
       isScrollControlled: true,
       showDragHandle: true,
       clipBehavior: Clip.hardEdge,
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       builder: (context) => ReportScreen(),
     );
   }
@@ -28,7 +28,7 @@ class EllipsisScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(Sizes.size14),
       ),
       child: Scaffold(
-        backgroundColor: Colors.grey.shade50,
+        // backgroundColor: Colors.grey.shade50,
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: Sizes.size28),
           child: Column(
@@ -36,7 +36,7 @@ class EllipsisScreen extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: Colors.grey[200],
+                  color: Colors.grey.withValues(alpha: 0.2),
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(Sizes.size12),
@@ -67,7 +67,7 @@ class EllipsisScreen extends StatelessWidget {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: Colors.grey[200],
+                  color: Colors.grey.withValues(alpha: 0.2),
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(Sizes.size12),

@@ -1,5 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:threads_clone/view_models/darkmode_config_vm.dart';
 
 String getImage() {
   final random = Random();
@@ -7,4 +9,5 @@ String getImage() {
 }
 
 bool isDarkMode(BuildContext context) =>
-    MediaQuery.of(context).platformBrightness == Brightness.dark;
+//     MediaQuery.of(context).platformBrightness == Brightness.dark;
+    context.watch<DarkmodeConfigViewModel>().darkMode;

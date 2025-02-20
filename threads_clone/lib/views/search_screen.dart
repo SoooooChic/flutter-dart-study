@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:faker/faker.dart';
 import 'package:threads_clone/constants/sizes.dart';
-import 'package:threads_clone/model/user_model.dart';
+import 'package:threads_clone/models/user_model.dart';
 import 'package:threads_clone/util.dart';
 import 'package:threads_clone/widgets/search_users.dart';
 

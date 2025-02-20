@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:threads_clone/constants/sizes.dart';
-import 'package:threads_clone/model/user_model.dart';
+import 'package:threads_clone/models/user_model.dart';
 import 'package:threads_clone/util.dart';
 
 class SearchUser extends StatelessWidget {
@@ -61,7 +61,7 @@ class SearchUser extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: Sizes.size14,
-                  color: isDark ? Colors.white : Colors.black,
+                  // color: isDark ? Colors.white : Colors.black,
                 ),
               ),
             ],

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:threads_clone/constants/sizes.dart';
+import 'package:threads_clone/util.dart';
+import 'package:threads_clone/view_models/darkmode_config_vm.dart';
 import 'package:threads_clone/views/setting_screen.dart';
 
 class PrivacyScreen extends StatefulWidget {
@@ -24,6 +27,7 @@ class _SettingScreenState extends State<PrivacyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -33,7 +37,18 @@ class _SettingScreenState extends State<PrivacyScreen> {
       body: ListView(
         children: [
           SwitchListTile(
-            activeTrackColor: Colors.black,
+            activeColor: Colors.black,
+            activeTrackColor: isDark ? Colors.white : Colors.grey,
+            title: const Text("Dark Mode"),
+            secondary: const Icon(FontAwesomeIcons.circleHalfStroke),
+            // value: context.watch<DarkmodeConfigViewModel>().darkMode,
+            value: isDark,
+            onChanged: (value) =>
+                context.read<DarkmodeConfigViewModel>().setDarkMode(value),
+          ),
+          SwitchListTile(
+            activeColor: Colors.black,
+            activeTrackColor: isDark ? Colors.white : Colors.grey,
             title: const Text("Private profile"),
             secondary: const Icon(FontAwesomeIcons.lock),
             value: _isPrivateProfile,

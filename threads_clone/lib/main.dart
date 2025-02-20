@@ -1,12 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:threads_clone/views/main_navigation_screen.dart';
 import 'package:threads_clone/constants/sizes.dart';
+import 'package:threads_clone/repos/setting_darkmode_config_repo.dart';
 import 'package:threads_clone/router.dart';
+import 'package:threads_clone/view_models/darkmode_config_vm.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   GoRouter.optionURLReflectsImperativeAPIs = true;
-  runApp(const App());
+
+  final preferences = await SharedPreferences.getInstance();
+  final repository = SettingDarkmodeConfigRepo(preferences);
+
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => DarkmodeConfigViewModel(repository),
+      )
+    ],
+    child: const App(),
+  ));
 }
 
 class App extends StatelessWidget {
@@ -18,7 +35,10 @@ class App extends StatelessWidget {
       routerConfig: router,
       // home: const MainNavigationScreen(),
       title: 'Threads',
-      themeMode: ThemeMode.system,
+      // themeMode: ThemeMode.system,
+      themeMode: context.watch<DarkmodeConfigViewModel>().darkMode
+          ? ThemeMode.dark
+          : ThemeMode.light,
       theme: ThemeData(
         useMaterial3: true,
         textTheme: Typography.blackMountainView,
@@ -49,6 +69,7 @@ class App extends StatelessWidget {
           iconColor: Colors.black,
         ),
         bottomSheetTheme: BottomSheetThemeData(
+          backgroundColor: Colors.white,
           dragHandleColor: Colors.grey.shade400,
         ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -87,6 +108,7 @@ class App extends StatelessWidget {
           iconColor: Colors.white,
         ),
         bottomSheetTheme: BottomSheetThemeData(
+          backgroundColor: Colors.black,
           dragHandleColor: Colors.grey.shade600,
         ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(

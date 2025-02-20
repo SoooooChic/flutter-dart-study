@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:threads_clone/constants/sizes.dart';
-import 'package:threads_clone/util.dart';
 import 'package:threads_clone/views/activity_screen.dart';
 import 'package:threads_clone/views/profile_screen.dart';
 import 'package:threads_clone/views/search_screen.dart';
@@ -44,66 +43,62 @@ class MainNavigationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
     final selectedIndex = _getSelectedIndex(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       body: child,
-      bottomNavigationBar: Container(
-        color: isDark ? Colors.black : Colors.white,
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).padding.bottom + Sizes.size12,
+        ),
         child: Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).padding.bottom + Sizes.size12,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(Sizes.size12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                NavTab(
-                  text: "Home",
-                  isSelected: selectedIndex == 0,
-                  icon: FontAwesomeIcons.house,
-                  selectedIcon: FontAwesomeIcons.house,
-                  onTap: () => _onTap(context, 0),
-                  selectedIndex: selectedIndex,
-                ),
-                NavTab(
-                  text: "Search",
-                  isSelected: selectedIndex == 1,
-                  icon: FontAwesomeIcons.magnifyingGlass,
-                  selectedIcon: FontAwesomeIcons.magnifyingGlass,
-                  onTap: () => _onTap(context, 1),
-                  selectedIndex: selectedIndex,
-                ),
-                NavTab(
-                  text: "Write",
-                  isSelected: false,
-                  icon: FontAwesomeIcons.penToSquare,
-                  selectedIcon: FontAwesomeIcons.solidPenToSquare,
-                  onTap: () => _onWriteTap(context),
-                  selectedIndex: selectedIndex,
-                ),
-                NavTab(
-                  text: "Activity",
-                  isSelected: selectedIndex == 3,
-                  icon: FontAwesomeIcons.heart,
-                  selectedIcon: FontAwesomeIcons.solidHeart,
-                  onTap: () => _onTap(context, 3),
-                  selectedIndex: selectedIndex,
-                ),
-                NavTab(
-                  text: "Profile",
-                  isSelected: selectedIndex == 4,
-                  icon: FontAwesomeIcons.user,
-                  selectedIcon: FontAwesomeIcons.solidUser,
-                  onTap: () => _onTap(context, 4),
-                  selectedIndex: selectedIndex,
-                ),
-              ],
-            ),
+          padding: const EdgeInsets.all(Sizes.size12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              NavTab(
+                text: "Home",
+                isSelected: selectedIndex == 0,
+                icon: FontAwesomeIcons.house,
+                selectedIcon: FontAwesomeIcons.house,
+                onTap: () => _onTap(context, 0),
+                selectedIndex: selectedIndex,
+              ),
+              NavTab(
+                text: "Search",
+                isSelected: selectedIndex == 1,
+                icon: FontAwesomeIcons.magnifyingGlass,
+                selectedIcon: FontAwesomeIcons.magnifyingGlass,
+                onTap: () => _onTap(context, 1),
+                selectedIndex: selectedIndex,
+              ),
+              NavTab(
+                text: "Write",
+                isSelected: false,
+                icon: FontAwesomeIcons.penToSquare,
+                selectedIcon: FontAwesomeIcons.solidPenToSquare,
+                onTap: () => _onWriteTap(context),
+                selectedIndex: selectedIndex,
+              ),
+              NavTab(
+                text: "Activity",
+                isSelected: selectedIndex == 3,
+                icon: FontAwesomeIcons.heart,
+                selectedIcon: FontAwesomeIcons.solidHeart,
+                onTap: () => _onTap(context, 3),
+                selectedIndex: selectedIndex,
+              ),
+              NavTab(
+                text: "Profile",
+                isSelected: selectedIndex == 4,
+                icon: FontAwesomeIcons.user,
+                selectedIcon: FontAwesomeIcons.solidUser,
+                onTap: () => _onTap(context, 4),
+                selectedIndex: selectedIndex,
+              ),
+            ],
           ),
         ),
       ),
