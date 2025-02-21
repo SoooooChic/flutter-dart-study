@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "261872585224",
+    "project_id": "sochic-tiktok-flutter-clone",
+    "storage_bucket": "sochic-tiktok-flutter-clone.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261872585224:android:754a1290eb3c577d431fbd",
+        "android_client_info": {
+          "package_name": "com.sochic.tiktok_clone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQOuVWFCg8wl0T8qqW-SbWbQscXGEC4iw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

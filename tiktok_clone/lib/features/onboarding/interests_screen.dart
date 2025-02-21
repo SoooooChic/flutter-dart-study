@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/authentication/onboarding/tutorial_screen.dart';
-import 'package:tiktok_clone/features/authentication/onboarding/widgets/interest_button.dart';
+import 'package:tiktok_clone/features/onboarding/tutorial_screen.dart';
+import 'package:tiktok_clone/features/onboarding/widgets/interest_button.dart';
 
 const interests = [
   "Daily Life",
@@ -46,6 +46,9 @@ const interests = [
 ];
 
 class InterestsScreen extends StatefulWidget {
+  static const String routeName = "interests";
+  static const String routeURL = "/tutorial";
+
   const InterestsScreen({super.key});
 
   @override
