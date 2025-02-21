@@ -3,8 +3,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:threads_clone/constants/sizes.dart';
 import 'package:threads_clone/views/activity_screen.dart';
+import 'package:threads_clone/views/privacy_screen.dart';
 import 'package:threads_clone/views/profile_screen.dart';
 import 'package:threads_clone/views/search_screen.dart';
+import 'package:threads_clone/views/setting_screen.dart';
 import 'package:threads_clone/widgets/nav_tab.dart';
 import 'package:threads_clone/views/write_screen.dart';
 
@@ -29,7 +31,13 @@ class MainNavigationScreen extends StatelessWidget {
 
   int _getSelectedIndex(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();
-    return _routes.indexOf(location).clamp(0, _routes.length - 1);
+    final normalizedLocation =
+        {SettingScreen.routeURL, PrivacyScreen.routeURL}.contains(location)
+            ? ProfileScreen.routeURL
+            : location;
+    return _routes.indexOf(normalizedLocation).clamp(0, _routes.length - 1);
+
+    // return _routes.indexOf(location).clamp(0, _routes.length - 1);
   }
 
   void _onWriteTap(BuildContext context) {
