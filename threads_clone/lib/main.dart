@@ -1,9 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:threads_clone/views/main_navigation_screen.dart';
 import 'package:threads_clone/constants/sizes.dart';
+import 'package:threads_clone/firebase_options.dart';
 import 'package:threads_clone/repos/setting_darkmode_config_repo.dart';
 import 'package:threads_clone/router.dart';
 import 'package:threads_clone/view_models/darkmode_config_vm.dart';
@@ -11,34 +12,34 @@ import 'package:threads_clone/view_models/darkmode_config_vm.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   GoRouter.optionURLReflectsImperativeAPIs = true;
 
   final preferences = await SharedPreferences.getInstance();
   final repository = SettingDarkmodeConfigRepo(preferences);
 
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(
-        create: (context) => DarkmodeConfigViewModel(repository),
-      )
+  runApp(ProviderScope(
+    overrides: [
+      settingDarkmodeConfigRepoProvider.overrideWithValue(repository),
     ],
     child: const App(),
   ));
 }
 
-class App extends StatelessWidget {
+class App extends ConsumerWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = ref.watch(changeDarkmodeProvider).darkMode;
+
     return MaterialApp.router(
-      routerConfig: router,
-      // home: const MainNavigationScreen(),
+      routerConfig: ref.watch(routerProvider),
       title: 'Threads',
-      // themeMode: ThemeMode.system,
-      themeMode: context.watch<DarkmodeConfigViewModel>().darkMode
-          ? ThemeMode.dark
-          : ThemeMode.light,
+      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
         useMaterial3: true,
         textTheme: Typography.blackMountainView,
@@ -48,7 +49,7 @@ class App extends StatelessWidget {
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Color(0xFFE9435A),
         ),
-        splashColor: Colors.transparent,
+        splashColor: const Color.fromARGB(0, 8, 8, 8),
         appBarTheme: const AppBarTheme(
           foregroundColor: Colors.black,
           backgroundColor: Colors.white,

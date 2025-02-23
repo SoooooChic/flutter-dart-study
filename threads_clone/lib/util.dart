@@ -1,7 +1,6 @@
 import 'dart:math';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:threads_clone/view_models/darkmode_config_vm.dart';
 
 String getImage() {
   final random = Random();
@@ -9,5 +8,20 @@ String getImage() {
 }
 
 bool isDarkMode(BuildContext context) =>
-//     MediaQuery.of(context).platformBrightness == Brightness.dark;
-    context.watch<DarkmodeConfigViewModel>().darkMode;
+    MediaQuery.of(context).platformBrightness == Brightness.dark;
+
+// context.watch<DarkmodeConfigViewModel>().darkMode;
+
+void showFirebaseErrorSnack(
+  BuildContext context,
+  Object? error,
+) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      showCloseIcon: true,
+      content: Text(
+        (error as FirebaseException).message ?? "Something wen't wrong.",
+      ),
+    ),
+  );
+}

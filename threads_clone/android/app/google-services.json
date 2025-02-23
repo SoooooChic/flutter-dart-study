@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "961147410824",
+    "project_id": "sochic-threads-flutter-clone",
+    "storage_bucket": "sochic-threads-flutter-clone.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961147410824:android:6baf047b3a99ce9e1e423d",
+        "android_client_info": {
+          "package_name": "com.example.threads_clone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-Edoab_AsJP2MR1tTXrBHUa0PUnP4ieQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

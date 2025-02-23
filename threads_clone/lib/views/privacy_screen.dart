@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:threads_clone/constants/sizes.dart';
-import 'package:threads_clone/util.dart';
 import 'package:threads_clone/view_models/darkmode_config_vm.dart';
 import 'package:threads_clone/views/setting_screen.dart';
 
-class PrivacyScreen extends StatefulWidget {
+class PrivacyScreen extends ConsumerStatefulWidget {
   const PrivacyScreen({super.key});
 
   static const String routeURL = '${SettingScreen.routeURL}/privacy';
   static const String routeName = '${SettingScreen.routeName}/privacy';
 
   @override
-  State<PrivacyScreen> createState() => _SettingScreenState();
+  ConsumerState<PrivacyScreen> createState() => _SettingScreenState();
 }
 
-class _SettingScreenState extends State<PrivacyScreen> {
+class _SettingScreenState extends ConsumerState<PrivacyScreen> {
   bool _isPrivateProfile = false;
   void _onPrivateProfileChanged(bool? newValue) {
     if (newValue == null) return;
@@ -27,7 +26,7 @@ class _SettingScreenState extends State<PrivacyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
+    final isDark = ref.watch(changeDarkmodeProvider).darkMode;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -41,10 +40,9 @@ class _SettingScreenState extends State<PrivacyScreen> {
             activeTrackColor: isDark ? Colors.white : Colors.grey,
             title: const Text("Dark Mode"),
             secondary: const Icon(FontAwesomeIcons.circleHalfStroke),
-            // value: context.watch<DarkmodeConfigViewModel>().darkMode,
             value: isDark,
             onChanged: (value) =>
-                context.read<DarkmodeConfigViewModel>().setDarkMode(value),
+                ref.read(changeDarkmodeProvider.notifier).setDarkMode(value),
           ),
           SwitchListTile(
             activeColor: Colors.black,

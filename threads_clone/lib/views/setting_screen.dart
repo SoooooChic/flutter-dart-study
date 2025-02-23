@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:threads_clone/repos/authentication_repo.dart';
 
-class SettingScreen extends StatelessWidget {
+class SettingScreen extends ConsumerWidget {
   const SettingScreen({super.key});
 
   static const String routeURL = '/setting';
@@ -11,16 +13,10 @@ class SettingScreen extends StatelessWidget {
 
   void _onTapPrivacy(BuildContext context) {
     context.pushNamed('setting/privacy');
-    // context.push('/setting/privacy');
-    // Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (context) => const PrivacyScreen(),
-    //   ),
-    // );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -77,7 +73,10 @@ class SettingScreen extends StatelessWidget {
                       child: const Text("No"),
                     ),
                     CupertinoDialogAction(
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () {
+                        ref.read(authRepo).signOut();
+                        context.go("/login");
+                      },
                       isDestructiveAction: true,
                       child: const Text("Yes"),
                     ),
