@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:threads_clone/constants/gaps.dart';
 import 'package:threads_clone/constants/sizes.dart';
-// import 'package:threads_clone/util.dart';
 import 'package:threads_clone/widgets/persistent_tab_bar.dart';
 import 'package:threads_clone/widgets/thread.dart';
 
@@ -45,8 +44,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final isDark = isDarkMode(context);
-
     return SafeArea(
       child: DefaultTabController(
         length: 2,
@@ -156,7 +153,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  // color: Colors.black,
                                 ),
                               ),
                             ),
@@ -175,7 +171,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  // color: Colors.black,
                                 ),
                               ),
                             ),

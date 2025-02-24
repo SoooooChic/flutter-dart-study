@@ -7,11 +7,6 @@ String getImage() {
   return 'https://picsum.photos/300/200?hash=${random.nextInt(10000)}';
 }
 
-bool isDarkMode(BuildContext context) =>
-    MediaQuery.of(context).platformBrightness == Brightness.dark;
-
-// context.watch<DarkmodeConfigViewModel>().darkMode;
-
 void showFirebaseErrorSnack(
   BuildContext context,
   Object? error,

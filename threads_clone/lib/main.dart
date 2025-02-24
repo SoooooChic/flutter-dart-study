@@ -78,6 +78,10 @@ class App extends ConsumerWidget {
           selectedItemColor: Colors.black,
           unselectedItemColor: Colors.grey.shade500,
         ),
+        colorScheme: ColorScheme.light(
+          primary: Colors.black,
+          secondary: Colors.white,
+        ),
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
@@ -116,6 +120,10 @@ class App extends ConsumerWidget {
           backgroundColor: Colors.black,
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.grey.shade500,
+        ),
+        colorScheme: ColorScheme.dark(
+          primary: Colors.white,
+          secondary: Colors.black,
         ),
       ),
     );

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:faker/faker.dart';
 import 'package:threads_clone/constants/sizes.dart';
 import 'package:threads_clone/models/user_model.dart';
-import 'package:threads_clone/util.dart';
 import 'package:threads_clone/widgets/search_users.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -65,8 +64,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -87,7 +84,9 @@ class _SearchScreenState extends State<SearchScreen> {
             child: CupertinoSearchTextField(
               controller: _textEditingController,
               onChanged: _onSearchChanged,
-              style: TextStyle(color: isDark ? Colors.white : Colors.black),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
           ),
         ),
