@@ -48,7 +48,7 @@ class Thread extends StatelessWidget {
           Expanded(
             flex: 5,
             child: Column(
-              mainAxisSize: MainAxisSize.min, // 최소 높이만 차지하도록 설정
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
