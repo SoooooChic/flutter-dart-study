@@ -75,8 +75,6 @@ class _WriteScreenState extends State<WriteScreen> {
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           elevation: 1,
-          // backgroundColor: Colors.white,
-          // shadowColor: Colors.black,
           leadingWidth: 100,
           leading: GestureDetector(
             onTap: () {
@@ -90,7 +88,6 @@ class _WriteScreenState extends State<WriteScreen> {
                 style: TextStyle(
                   fontSize: Sizes.size16,
                   fontWeight: FontWeight.w500,
-                  // color: Colors.black,
                 ),
               ),
             ),
@@ -100,7 +97,6 @@ class _WriteScreenState extends State<WriteScreen> {
             style: TextStyle(
               fontSize: Sizes.size24,
               fontWeight: FontWeight.bold,
-              // color: Colors.black,
             ),
           ),
           centerTitle: true,
@@ -145,9 +141,6 @@ class _WriteScreenState extends State<WriteScreen> {
                       children: [
                         Text(
                           'jane_mobbin',
-                          // style: TextStyle(
-                          //   color: Colors.black,
-                          // ),
                         ),
                         Gaps.v10,
                         SizedBox(
@@ -165,7 +158,6 @@ class _WriteScreenState extends State<WriteScreen> {
                                 borderSide: BorderSide.none,
                               ),
                               filled: true,
-                              // fillColor: Colors.white,
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: Sizes.size12,
                               ),
@@ -235,7 +227,6 @@ class _WriteScreenState extends State<WriteScreen> {
                 bottom: 0,
                 width: size.width - 32,
                 child: BottomAppBar(
-                  // color: Colors.white,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

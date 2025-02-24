@@ -10,7 +10,6 @@ import 'package:threads_clone/views/profile_screen.dart';
 import 'package:threads_clone/views/search_screen.dart';
 import 'package:threads_clone/views/setting_screen.dart';
 
-// final GoRouter router = GoRouter(
 final routerProvider = Provider((ref) {
   return GoRouter(
     initialLocation: '/',

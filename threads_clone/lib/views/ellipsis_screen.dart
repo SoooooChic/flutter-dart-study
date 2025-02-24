@@ -13,7 +13,6 @@ class EllipsisScreen extends StatelessWidget {
       isScrollControlled: true,
       showDragHandle: true,
       clipBehavior: Clip.hardEdge,
-      // backgroundColor: Colors.white,
       builder: (context) => ReportScreen(),
     );
   }
@@ -28,7 +27,6 @@ class EllipsisScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(Sizes.size14),
       ),
       child: Scaffold(
-        // backgroundColor: Colors.grey.shade50,
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: Sizes.size28),
           child: Column(

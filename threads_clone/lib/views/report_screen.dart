@@ -31,18 +31,15 @@ class ReportScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(Sizes.size14),
       ),
       child: Scaffold(
-        // backgroundColor: Colors.grey.shade50,
         appBar: AppBar(
           toolbarHeight: 20,
           elevation: 1,
-          // backgroundColor: Colors.grey.shade50,
           automaticallyImplyLeading: false,
           title: const Text(
             "Report",
             style: TextStyle(
               fontSize: Sizes.size18,
               fontWeight: FontWeight.bold,
-              // color: Colors.black,
             ),
           ),
           centerTitle: true,

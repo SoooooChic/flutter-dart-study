@@ -36,8 +36,6 @@ class MainNavigationScreen extends StatelessWidget {
             ? ProfileScreen.routeURL
             : location;
     return _routes.indexOf(normalizedLocation).clamp(0, _routes.length - 1);
-
-    // return _routes.indexOf(location).clamp(0, _routes.length - 1);
   }
 
   void _onWriteTap(BuildContext context) {
@@ -55,7 +53,6 @@ class MainNavigationScreen extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      // backgroundColor: Colors.white,
       body: child,
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(
