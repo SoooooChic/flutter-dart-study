@@ -1,21 +1,23 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/gaps.dart';
 import 'package:threads_clone/constants/sizes.dart';
+import 'package:threads_clone/view_models/thread_vm.dart';
 import 'package:threads_clone/views/camera_screen.dart';
 
-class WriteScreen extends StatefulWidget {
+class WriteScreen extends ConsumerStatefulWidget {
   const WriteScreen({super.key});
 
   static const String routeURL = '/write';
   static const String routeName = 'write';
 
   @override
-  State<WriteScreen> createState() => _WriteScreenState();
+  ConsumerState<WriteScreen> createState() => _WriteScreenState();
 }
 
-class _WriteScreenState extends State<WriteScreen> {
+class _WriteScreenState extends ConsumerState<WriteScreen> {
   final TextEditingController _thredController = TextEditingController();
   // final FocusNode _focusNode = FocusNode();
 
@@ -43,9 +45,17 @@ class _WriteScreenState extends State<WriteScreen> {
     super.dispose();
   }
 
-  void _onThreadWrite() {
+  Future<void> _onThreadWrite() async {
     if (_thread.isNotEmpty) {
-      Navigator.of(context).pop();
+      //
+      // Navigator.of(context).pop();
+      //
+      List<File> imageFiles =
+          _selectedImages.map((path) => File(path)).toList();
+
+      await ref
+          .read(threadProvider.notifier)
+          .writeThread(_thread, imageFiles, context);
     }
   }
 

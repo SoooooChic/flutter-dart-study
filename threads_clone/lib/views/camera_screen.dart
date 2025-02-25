@@ -86,7 +86,11 @@ class _CameraScreenState extends State<CameraScreen>
     //   Navigator.pop(context, image.path);
     // }
 
-    final List<XFile> images = await _picker.pickMultiImage();
+    final List<XFile> images = await _picker.pickMultiImage(
+      imageQuality: 50,
+      maxHeight: 150,
+      maxWidth: 150,
+    );
 
     _isPicking = false; // 선택이 끝나면 다시 false로 변경
 
