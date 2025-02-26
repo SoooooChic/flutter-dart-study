@@ -7,7 +7,7 @@ import 'package:threads_clone/constants/sizes.dart';
 import 'package:threads_clone/firebase_options.dart';
 import 'package:threads_clone/repos/setting_darkmode_config_repo.dart';
 import 'package:threads_clone/router.dart';
-import 'package:threads_clone/view_models/darkmode_config_vm.dart';
+import 'package:threads_clone/view_models/darkmode_config_view_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

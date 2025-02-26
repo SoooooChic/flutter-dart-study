@@ -21,7 +21,8 @@ class ImageCarousel extends StatelessWidget {
             borderRadius: BorderRadius.circular(Sizes.size16),
             child: Image.network(
               imageUrls[index],
-              // fit: BoxFit.cover,
+              width: 300,
+              fit: BoxFit.cover,
             ),
           );
         },

@@ -88,11 +88,11 @@ class _CameraScreenState extends State<CameraScreen>
 
     final List<XFile> images = await _picker.pickMultiImage(
       imageQuality: 50,
-      maxHeight: 150,
-      maxWidth: 150,
+      maxHeight: 200,
+      maxWidth: 200,
     );
 
-    _isPicking = false; // 선택이 끝나면 다시 false로 변경
+    _isPicking = false;
 
     if (images.isNotEmpty && mounted) {
       List<String> imagePaths = images.map((image) => image.path).toList();

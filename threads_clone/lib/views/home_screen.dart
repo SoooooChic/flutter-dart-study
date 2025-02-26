@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/gaps.dart';
 import 'package:threads_clone/constants/sizes.dart';
+import 'package:threads_clone/view_models/thread_view_model.dart';
 import 'package:threads_clone/widgets/go_to_top_button.dart';
-import 'package:threads_clone/widgets/thread.dart';
+import 'package:threads_clone/widgets/threads.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
 
   bool _showModal = false;
@@ -44,6 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final threadListAsync = ref.watch(threadWatchProvider);
+
     return Scaffold(
       body: Stack(
         alignment: Alignment.topCenter,
@@ -61,24 +65,30 @@ class _HomeScreenState extends State<HomeScreen> {
                   size: Sizes.size40,
                 ),
               ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return Column(
-                      children: const [
-                        Thread(),
-                        Gaps.v16,
-                        Divider(
-                          height: 0,
-                          thickness: 1,
-                        ),
-                        Gaps.v16,
-                      ],
-                    );
-                  },
-                  childCount: 10,
+              threadListAsync.when(
+                data: (threads) => SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      final thread = threads[index];
+                      return Column(
+                        children: [
+                          Threads(threads: thread),
+                          Gaps.v16,
+                          const Divider(height: 0, thickness: 1),
+                          Gaps.v16,
+                        ],
+                      );
+                    },
+                    childCount: threads.length,
+                  ),
                 ),
-              )
+                loading: () => const SliverToBoxAdapter(
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+                error: (error, stackTrace) => SliverToBoxAdapter(
+                  child: Center(child: Text("Error loading Threads data")),
+                ),
+              ),
             ],
           ),
           if (_showModal)

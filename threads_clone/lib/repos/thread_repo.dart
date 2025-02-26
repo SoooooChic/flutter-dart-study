@@ -11,15 +11,36 @@ class ThreadRepo {
 
   Future<String> uploadImage(File file) async {
     final String fileName = Uuid().v4();
-    final fileRef = _storage.ref().child("threads/$fileName");
+    final fileRef = _storage.ref().child("threadsImages/$fileName");
     await fileRef.putFile(file);
     return await fileRef.getDownloadURL();
   }
 
   Future<void> createThread(ThreadModel thread) async {
-    await _db.collection("threads").doc(thread.author).set(thread.toJson());
+    await _db.collection("threads").add(thread.toJson());
+  }
+
+  Future<List<ThreadModel>> getThreads() async {
+    final snapshot = await _db
+        .collection("threads")
+        .orderBy("createdAt", descending: true)
+        .get();
+    return snapshot.docs
+        .map((doc) => ThreadModel.fromJson(doc.data()))
+        .toList();
+  }
+
+  Stream<List<ThreadModel>> watchThreads() {
+    return _db
+        .collection("threads")
+        .orderBy("createdAt", descending: true)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => ThreadModel.fromJson(doc.data()))
+          .toList();
+    });
   }
 }
 
-// final threadRepo = Provider((ref) => ThreadRepo());
-final threadRepo = Provider<ThreadRepo>((ref) => ThreadRepo());
+final threadRepoProvider = Provider<ThreadRepo>((ref) => ThreadRepo());

@@ -1,23 +1,26 @@
 import 'package:faker/faker.dart' as fake;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:threads_clone/constants/gaps.dart';
 import 'package:threads_clone/constants/sizes.dart';
+import 'package:threads_clone/view_models/thread_view_model.dart';
 import 'package:threads_clone/widgets/persistent_tab_bar.dart';
 import 'package:threads_clone/widgets/thread.dart';
+import 'package:threads_clone/widgets/threads.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   static const String routeURL = '/profile';
   static const String routeName = 'profile';
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   final faker = fake.Faker();
   List<String> avatarUrls = [];
 
@@ -44,6 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final threadListAsync = ref.watch(threadWatchProvider);
     return SafeArea(
       child: DefaultTabController(
         length: 2,
@@ -192,22 +196,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Container(
                 color: Theme.of(context).scaffoldBackgroundColor,
-                child: ListView.builder(
-                  padding: EdgeInsets.only(top: 20),
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: const [
-                        Thread(),
-                        Gaps.v16,
-                        Divider(
-                          height: 0,
-                          thickness: 1,
-                        ),
-                        Gaps.v16,
-                      ],
-                    );
-                  },
+                child: threadListAsync.when(
+                  data: (threads) => ListView.builder(
+                    padding: const EdgeInsets.only(top: 20),
+                    itemCount: threads.length,
+                    itemBuilder: (context, index) {
+                      final thread = threads[index];
+                      return Column(
+                        children: [
+                          Threads(threads: thread),
+                          Gaps.v16,
+                          const Divider(height: 0, thickness: 1),
+                          Gaps.v16,
+                        ],
+                      );
+                    },
+                  ),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (error, stackTrace) => Center(
+                    child: Text("Error loading Threads data"),
+                  ),
                 ),
               ),
               Container(

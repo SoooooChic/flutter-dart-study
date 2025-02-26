@@ -14,7 +14,7 @@ final routerProvider = Provider((ref) {
   return GoRouter(
     initialLocation: '/',
     redirect: (context, state) {
-      final isLoggedIn = ref.read(authRepo).isLoggedIn;
+      final isLoggedIn = ref.read(authRepoProvider).isLoggedIn;
       if (!isLoggedIn) {
         if (state.matchedLocation != LoginScreen.routeURL) {
           return LoginScreen.routeURL;

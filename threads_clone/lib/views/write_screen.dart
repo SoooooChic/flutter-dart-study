@@ -2,9 +2,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:threads_clone/constants/gaps.dart';
 import 'package:threads_clone/constants/sizes.dart';
-import 'package:threads_clone/view_models/thread_vm.dart';
+import 'package:threads_clone/view_models/thread_view_model.dart';
 import 'package:threads_clone/views/camera_screen.dart';
 
 class WriteScreen extends ConsumerStatefulWidget {
@@ -47,15 +48,17 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
 
   Future<void> _onThreadWrite() async {
     if (_thread.isNotEmpty) {
-      //
-      // Navigator.of(context).pop();
-      //
       List<File> imageFiles =
           _selectedImages.map((path) => File(path)).toList();
 
       await ref
           .read(threadProvider.notifier)
           .writeThread(_thread, imageFiles, context);
+
+      if (mounted) {
+        context.go('/');
+        Navigator.pop(context);
+      }
     }
   }
 
@@ -153,24 +156,22 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                           'jane_mobbin',
                         ),
                         Gaps.v10,
-                        SizedBox(
-                          height: Sizes.size44,
-                          child: TextField(
-                            controller: _thredController,
-                            // focusNode: _focusNode,
-                            minLines: null,
-                            maxLines: null,
-                            textInputAction: TextInputAction.newline,
-                            cursorColor: Theme.of(context).primaryColor,
-                            decoration: InputDecoration(
-                              hintText: "Start a thread...",
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: Sizes.size12,
-                              ),
+                        TextField(
+                          controller: _thredController,
+                          // focusNode: _focusNode,
+                          minLines: 1,
+                          maxLines: null,
+                          // expands: true,
+                          textInputAction: TextInputAction.newline,
+                          cursorColor: Theme.of(context).primaryColor,
+                          decoration: InputDecoration(
+                            hintText: "Start a thread...",
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
+                            filled: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: Sizes.size12,
                             ),
                           ),
                         ),
@@ -247,16 +248,20 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: _onThreadWrite,
-                        child: Text(
-                          'Post',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: _thredController.text.isEmpty
-                                ? Colors.blue[100]
-                                : Colors.blue,
-                          ),
-                        ),
+                        onTap: ref.watch(threadProvider).isLoading
+                            ? () {}
+                            : _onThreadWrite,
+                        child: ref.watch(threadProvider).isLoading
+                            ? CircularProgressIndicator()
+                            : Text(
+                                'Post',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: _thredController.text.isEmpty
+                                      ? Colors.blue[100]
+                                      : Colors.blue,
+                                ),
+                              ),
                       ),
                     ],
                   ),

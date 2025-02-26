@@ -10,7 +10,7 @@ class SignUpViewModel extends AsyncNotifier<void> {
 
   @override
   FutureOr<void> build() {
-    _authRepo = ref.read(authRepo);
+    _authRepo = ref.read(authRepoProvider);
   }
 
   Future<void> signUp(

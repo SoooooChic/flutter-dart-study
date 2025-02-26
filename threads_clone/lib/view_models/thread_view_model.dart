@@ -11,8 +11,7 @@ class ThreadViewModel extends AsyncNotifier<void> {
 
   @override
   FutureOr<void> build() {
-    // _threadRepo = ref.read(threadRepo);
-    _threadRepo = ref.read(threadRepo);
+    _threadRepo = ref.read(threadRepoProvider);
   }
 
   Future<void> writeThread(
@@ -47,8 +46,21 @@ class ThreadViewModel extends AsyncNotifier<void> {
       // context.go('/');
     }
   }
+
+  Future<List<ThreadModel>> getThreads() {
+    return _threadRepo.getThreads();
+  }
+
+  Stream<List<ThreadModel>> watchThreads() {
+    return _threadRepo.watchThreads();
+  }
 }
 
 final threadProvider = AsyncNotifierProvider<ThreadViewModel, void>(
   () => ThreadViewModel(),
 );
+
+final threadWatchProvider = StreamProvider<List<ThreadModel>>((ref) {
+  final threadRepo = ref.read(threadRepoProvider);
+  return threadRepo.watchThreads();
+});

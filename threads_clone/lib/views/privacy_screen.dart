@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:threads_clone/constants/sizes.dart';
-import 'package:threads_clone/view_models/darkmode_config_vm.dart';
+import 'package:threads_clone/view_models/darkmode_config_view_model.dart';
 import 'package:threads_clone/views/setting_screen.dart';
 
 class PrivacyScreen extends ConsumerStatefulWidget {
