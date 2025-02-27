@@ -46,7 +46,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final threadListAsync = ref.watch(threadWatchProvider);
+    final threadListAsync = ref.watch(threadProvider);
 
     return Scaffold(
       body: Stack(

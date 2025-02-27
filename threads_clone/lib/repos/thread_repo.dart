@@ -11,7 +11,7 @@ class ThreadRepo {
 
   Future<String> uploadImage(File file) async {
     final String fileName = Uuid().v4();
-    final fileRef = _storage.ref().child("threadsImages/$fileName");
+    final fileRef = _storage.ref().child("threadImages/$fileName");
     await fileRef.putFile(file);
     return await fileRef.getDownloadURL();
   }
@@ -20,26 +20,30 @@ class ThreadRepo {
     await _db.collection("threads").add(thread.toJson());
   }
 
-  Future<List<ThreadModel>> getThreads() async {
-    final snapshot = await _db
-        .collection("threads")
-        .orderBy("createdAt", descending: true)
-        .get();
-    return snapshot.docs
-        .map((doc) => ThreadModel.fromJson(doc.data()))
-        .toList();
-  }
-
-  Stream<List<ThreadModel>> watchThreads() {
+  Stream<List<ThreadModel>> getThreads() {
     return _db
         .collection("threads")
         .orderBy("createdAt", descending: true)
         .snapshots()
-        .map((snapshot) {
-      return snapshot.docs
-          .map((doc) => ThreadModel.fromJson(doc.data()))
-          .toList();
-    });
+        .map(
+          (event) => event.docs
+              .map((doc) => ThreadModel.fromJson(doc.data()))
+              .toList(),
+        );
+  }
+
+  Future<List<ThreadModel>> searchThreads(String keyword) async {
+    final query = await _db
+        .collection("threads")
+        .where(
+          Filter.or(
+            Filter("author", isEqualTo: keyword),
+            Filter("comment", isEqualTo: keyword),
+          ),
+        )
+        .get();
+
+    return query.docs.map((doc) => ThreadModel.fromJson(doc.data())).toList();
   }
 }
 

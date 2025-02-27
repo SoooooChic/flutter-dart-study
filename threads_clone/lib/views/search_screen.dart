@@ -1,21 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:faker/faker.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:threads_clone/constants/sizes.dart';
 import 'package:threads_clone/models/user_model.dart';
+import 'package:threads_clone/view_models/thread_view_model.dart';
 import 'package:threads_clone/widgets/search_users.dart';
 
-class SearchScreen extends StatefulWidget {
+class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
 
   static const String routeName = 'search';
   static const String routeURL = '/search';
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  ConsumerState<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchScreenState extends ConsumerState<SearchScreen> {
   final TextEditingController _textEditingController = TextEditingController();
 
   List<UserModel> _users = [];
@@ -33,14 +35,10 @@ class _SearchScreenState extends State<SearchScreen> {
     setState(() {
       _users = List.generate(20, (index) {
         return UserModel(
+          uid: faker.internet.userName(),
           userId: faker.internet.userName(),
           userName: faker.person.name(),
           followers: faker.randomGenerator.integer(1000) / 10,
-          avatarUrl:
-              'https://i.pravatar.cc/150?img=${faker.randomGenerator.integer(60)}',
-          followersAvatar: faker.randomGenerator.boolean()
-              ? 'https://i.pravatar.cc/150?img=${faker.randomGenerator.integer(60)}'
-              : '',
         );
       });
       _filteredUsers = List.from(_users);
@@ -48,12 +46,16 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _onSearchChanged(String value) {
-    setState(() {
-      _filteredUsers = _users.where((user) {
-        return user.userId.toLowerCase().contains(value.toLowerCase()) ||
-            user.userName.toLowerCase().contains(value.toLowerCase());
-      }).toList();
-    });
+    final result = ref.read(threadProvider.notifier).searchThreads(value);
+
+    print(result);
+
+    // setState(() {
+    //   _filteredUsers = _users.where((user) {
+    //     return user.userId.toLowerCase().contains(value.toLowerCase()) ||
+    //         user.userName.toLowerCase().contains(value.toLowerCase());
+    //   }).toList();
+    // });
   }
 
   @override

@@ -1,32 +1,36 @@
 class UserModel {
+  final String uid;
   final String userId;
   final String userName;
   final double followers;
-  final String avatarUrl;
-  final String followersAvatar;
+  final String? avatarUrl;
+  final String? bio;
 
   UserModel({
+    required this.uid,
     required this.userId,
     required this.userName,
     required this.followers,
-    required this.avatarUrl,
-    required this.followersAvatar,
+    this.avatarUrl,
+    this.bio,
   });
 
   UserModel.fromJson(Map<String, dynamic> json)
-      : avatarUrl = json['avatarUrl'],
+      : uid = json['uid'],
         userId = json['userId'],
         userName = json['userName'],
         followers = json['followers'],
-        followersAvatar = json['followersAvatar'];
+        avatarUrl = json['avatarUrl'],
+        bio = json['bio'];
 
   Map<String, dynamic> toJson() {
     return {
-      'avatarUrl': avatarUrl,
+      'uid': uid,
       'userId': userId,
       'userName': userName,
       'followers': followers,
-      'followersAvatar': followersAvatar,
+      'avatarUrl': avatarUrl,
+      'bio': bio,
     };
   }
 }

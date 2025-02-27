@@ -14,8 +14,9 @@ class SearchUser extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-        foregroundImage: NetworkImage(user.avatarUrl),
+        backgroundColor: Colors.yellow.shade300,
         radius: 20,
+        child: Text(user.userName),
       ),
       title: Row(
         children: [
@@ -48,11 +49,11 @@ class SearchUser extends StatelessWidget {
           const SizedBox(height: 5),
           Row(
             children: [
-              if (user.followersAvatar.isNotEmpty)
-                CircleAvatar(
-                  foregroundImage: NetworkImage(user.followersAvatar),
-                  radius: 9,
-                ),
+              CircleAvatar(
+                backgroundColor: Colors.orange.shade300,
+                radius: 9,
+                child: Text(user.userName),
+              ),
               Text(
                 " ${user.followers}K followers",
                 style: TextStyle(
