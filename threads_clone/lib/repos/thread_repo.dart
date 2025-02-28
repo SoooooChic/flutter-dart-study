@@ -45,6 +45,8 @@ class ThreadRepo {
 
     return query.docs.map((doc) => ThreadModel.fromJson(doc.data())).toList();
   }
+
+  // Future<List<ThreadModel>> threadList()
 }
 
 final threadRepoProvider = Provider<ThreadRepo>((ref) => ThreadRepo());

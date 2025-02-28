@@ -48,6 +48,11 @@ class ThreadViewModel extends StreamNotifier<List<ThreadModel>> {
       showFirebaseErrorSnack(context, e);
     }
   }
+
+  Future<void> fetchThreadList(String keyword) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() => _threadRepo.searchThreads(keyword));
+  }
 }
 
 final threadProvider =
