@@ -56,6 +56,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
   }
 
   void _onTapSearchBack() {
+    _isSearch = false;
     _isSearchTap = false;
     _textEditingController.clear();
     FocusScope.of(context).unfocus();
