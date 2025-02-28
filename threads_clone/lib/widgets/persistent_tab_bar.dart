@@ -5,9 +5,8 @@ class PersistentTabBar extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    // Theme.of(context).colorScheme.secondary
-
     return Container(
+      color: Theme.of(context).colorScheme.secondary,
       margin: EdgeInsets.symmetric(
         horizontal: Sizes.size10,
       ),

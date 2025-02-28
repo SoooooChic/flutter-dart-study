@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:faker/faker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:threads_clone/constants/gaps.dart';
 import 'package:threads_clone/constants/sizes.dart';
-import 'package:threads_clone/models/user_model.dart';
-import 'package:threads_clone/view_models/thread_view_model.dart';
+import 'package:threads_clone/view_models/users_view_model.dart';
 import 'package:threads_clone/widgets/search_users.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
@@ -20,42 +19,26 @@ class SearchScreen extends ConsumerStatefulWidget {
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   final TextEditingController _textEditingController = TextEditingController();
 
-  List<UserModel> _users = [];
-
-  List<UserModel> _filteredUsers = [];
+  bool _isSearch = false;
+  bool _isSearchTap = false;
 
   @override
   void initState() {
     super.initState();
-    _generateUsers();
-  }
-
-  void _generateUsers() {
-    final faker = Faker();
-    setState(() {
-      _users = List.generate(20, (index) {
-        return UserModel(
-          uid: faker.internet.userName(),
-          userId: faker.internet.userName(),
-          userName: faker.person.name(),
-          followers: faker.randomGenerator.integer(1000) / 10,
-        );
-      });
-      _filteredUsers = List.from(_users);
-    });
   }
 
   void _onSearchChanged(String value) {
-    final result = ref.read(threadProvider.notifier).searchThreads(value);
+    if (value.isNotEmpty) {
+      _isSearch = true;
+    } else {
+      _isSearch = false;
+    }
 
-    print(result);
+    ref.read(userProvider.notifier).fetchUserList(value);
+  }
 
-    // setState(() {
-    //   _filteredUsers = _users.where((user) {
-    //     return user.userId.toLowerCase().contains(value.toLowerCase()) ||
-    //         user.userName.toLowerCase().contains(value.toLowerCase());
-    //   }).toList();
-    // });
+  void _onTapSearch() {
+    _isSearchTap = true;
   }
 
   @override
@@ -66,6 +49,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userList = ref.watch(userProvider);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -93,15 +78,51 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ),
         ),
       ),
-      body: ListView.separated(
-        itemCount: _filteredUsers.length,
-        separatorBuilder: (context, index) => const Padding(
-          padding: EdgeInsets.only(left: 70, right: 10),
-          child: Divider(height: 0, thickness: 1),
-        ),
-        itemBuilder: (context, index) {
-          return SearchUser(user: _filteredUsers[index]);
-        },
+      body: Column(
+        children: [
+          if (_isSearch)
+            Container(
+              padding: EdgeInsets.all(Sizes.size20),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.search),
+                      Gaps.h10,
+                      Expanded(
+                        child: Text('"${_textEditingController.text}" Search'),
+                      ),
+                      GestureDetector(
+                        onTap: _onTapSearch,
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Gaps.v20,
+                  const Divider(height: 0, thickness: 1),
+                ],
+              ),
+            ),
+          Expanded(
+            child: userList.when(
+              data: (users) => ListView.separated(
+                itemCount: users.length,
+                separatorBuilder: (context, index) => const Padding(
+                  padding: EdgeInsets.only(left: 70, right: 10),
+                  child: Divider(height: 0, thickness: 1),
+                ),
+                itemBuilder: (context, index) {
+                  return SearchUser(user: users[index]);
+                },
+              ),
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, stackTrace) =>
+                  Center(child: Text('Error: $error')),
+            ),
+          ),
+        ],
       ),
     );
   }

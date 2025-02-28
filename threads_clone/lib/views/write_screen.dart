@@ -78,6 +78,8 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final isLoading = ref.watch(threadProvider).isLoading;
+
     return Container(
       height: size.height * 0.9,
       clipBehavior: Clip.hardEdge,
@@ -248,10 +250,8 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: ref.watch(threadProvider).isLoading
-                            ? () {}
-                            : _onThreadWrite,
-                        child: ref.watch(threadProvider).isLoading
+                        onTap: isLoading ? () {} : _onThreadWrite,
+                        child: isLoading
                             ? CircularProgressIndicator()
                             : Text(
                                 'Post',

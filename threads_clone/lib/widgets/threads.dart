@@ -18,6 +18,7 @@ class Threads extends StatelessWidget {
 
   void _onEllipsisTap(BuildContext context) {
     showModalBottomSheet(
+      useRootNavigator: true,
       context: context,
       isScrollControlled: true,
       showDragHandle: true,

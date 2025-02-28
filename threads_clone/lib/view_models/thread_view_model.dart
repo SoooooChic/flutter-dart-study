@@ -28,6 +28,7 @@ class ThreadViewModel extends StreamNotifier<List<ThreadModel>> {
     List<File>? images,
     BuildContext context,
   ) async {
+    state = const AsyncValue.loading();
     try {
       final imageUrl = images != null
           ? await Future.wait(

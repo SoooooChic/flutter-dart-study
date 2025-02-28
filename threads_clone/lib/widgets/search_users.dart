@@ -14,9 +14,13 @@ class SearchUser extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-        backgroundColor: Colors.yellow.shade300,
+        backgroundColor: Colors.yellow.shade700,
         radius: 20,
-        child: Text(user.userName),
+        child: Text(
+          user.userName,
+          style: TextStyle(fontSize: Sizes.size12),
+          textAlign: TextAlign.center,
+        ),
       ),
       title: Row(
         children: [
@@ -50,9 +54,13 @@ class SearchUser extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                backgroundColor: Colors.orange.shade300,
+                backgroundColor: Colors.orange.shade700,
                 radius: 9,
-                child: Text(user.userName),
+                child: Text(
+                  user.userName,
+                  style: TextStyle(fontSize: Sizes.size10),
+                  textAlign: TextAlign.center,
+                ),
               ),
               Text(
                 " ${user.followers}K followers",
@@ -84,7 +92,6 @@ class SearchUser extends StatelessWidget {
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
-            // color: isDark ? Colors.white : Colors.black,
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
