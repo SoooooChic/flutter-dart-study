@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "398253758562",
+    "project_id": "sochic-assignment26-flutter",
+    "storage_bucket": "sochic-assignment26-flutter.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398253758562:android:b8e8696aa0a6acd427d93b",
+        "android_client_info": {
+          "package_name": "com.example.assignment26"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwjqUyZbsEOxR8Sh8I92fCUJcdcsLW_xo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
