@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             TableCalendar(
               firstDay: DateTime.utc(2000, 1, 1),
-              lastDay: DateTime.utc(2100, 12, 31),
+              lastDay: DateTime.now(),
               focusedDay: _focusedDay,
               calendarFormat: _calendarFormat,
               availableCalendarFormats: const {
@@ -52,7 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
               onPageChanged: (focusedDay) {
-                _focusedDay = focusedDay;
+                setState(() {
+                  _focusedDay =
+                      focusedDay.isAfter(DateTime.now())
+                          ? DateTime.now()
+                          : focusedDay;
+                });
               },
               calendarStyle: const CalendarStyle(
                 todayDecoration: BoxDecoration(
@@ -66,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Gaps.v40,
+            Expanded(child: Text('data')),
             if (_selectedDay != null)
               Text(
                 "선택된 날짜: ${DateFormat('yyyy년 MM월 dd일').format(_selectedDay!)}",

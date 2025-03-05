@@ -109,7 +109,6 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
             ),
           ),
           title: Row(
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               HeartBeat(size: 20.0),
               Gaps.h10,
