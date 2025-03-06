@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mood_tracker/constants/gaps.dart';
+import 'package:mood_tracker/constants/sizes.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("달력")),
+      appBar: AppBar(title: const Text("Calendar")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -71,7 +72,37 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Gaps.v40,
-            Expanded(child: Text('data')),
+            Expanded(
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: 3,
+                itemBuilder: (context, index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Sizes.size10),
+                      color: Colors.grey.shade100,
+                      border: Border.all(color: Colors.grey.shade200),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: Sizes.size6),
+                    child: ListTile(
+                      leading: Text(
+                        '😊',
+                        style: TextStyle(fontSize: Sizes.size36),
+                      ),
+                      title: Text(
+                        'asddfasdfasasdfasdfasdfasdfasd\nasdfasdfasdfasdf',
+                      ),
+                      subtitle: Text('$index hours ago'),
+                      // trailing: FaIcon(
+                      //   FontAwesomeIcons.trash,
+                      //   size: Sizes.size12,
+                      // ),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) => Gaps.v10,
+              ),
+            ),
             if (_selectedDay != null)
               Text(
                 "선택된 날짜: ${DateFormat('yyyy년 MM월 dd일').format(_selectedDay!)}",

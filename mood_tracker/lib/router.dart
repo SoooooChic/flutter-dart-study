@@ -27,7 +27,6 @@ final routerProvider = Provider((ref) {
         },
         routes: <RouteBase>[
           GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
-
           // GoRoute(
           //   path: ProfileScreen.routeURL,
           //   builder: (context, state) => const ProfileScreen(),
@@ -36,11 +35,6 @@ final routerProvider = Provider((ref) {
           //   path: SettingScreen.routeURL,
           //   name: SettingScreen.routeName,
           //   builder: (context, state) => const SettingScreen(),
-          // ),
-          // GoRoute(
-          //   path: PrivacyScreen.routeURL,
-          //   name: PrivacyScreen.routeName,
-          //   builder: (context, state) => const PrivacyScreen(),
           // ),
         ],
       ),

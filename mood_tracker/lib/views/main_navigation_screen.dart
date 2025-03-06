@@ -11,7 +11,7 @@ class MainNavigationScreen extends StatelessWidget {
 
   void _onTap(BuildContext context, int index) {
     // if (_routes[index].isNotEmpty) {
-    //   // context.go(_routes[index]);
+    // context.go(_routes[index]);
     // }
   }
 
@@ -31,12 +31,25 @@ class MainNavigationScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: child,
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).padding.bottom + Sizes.size12,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 10,
+              spreadRadius: 2,
+              offset: const Offset(0, -3),
+            ),
+          ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(Sizes.size12),
+          padding: const EdgeInsets.only(
+            top: Sizes.size20,
+            bottom: Sizes.size24,
+            left: Sizes.size10,
+            right: Sizes.size10,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

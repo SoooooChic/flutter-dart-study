@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mood_tracker/router.dart';
 
-// permission_handler
-// image_picker
-// shared_preferences
-// uuid
-
 // --------------------
 // -firebase set
 // --------------------

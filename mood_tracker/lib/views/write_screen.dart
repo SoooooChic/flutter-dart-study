@@ -1,10 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mood_tracker/constants/gaps.dart';
 import 'package:mood_tracker/constants/sizes.dart';
+import 'package:mood_tracker/widgets/auth_button.dart';
 import 'package:mood_tracker/widgets/heart_beat.dart';
 
 class WriteScreen extends ConsumerStatefulWidget {
@@ -18,43 +17,46 @@ class WriteScreen extends ConsumerStatefulWidget {
 }
 
 class _WriteScreenState extends ConsumerState<WriteScreen> {
-  final TextEditingController _thredController = TextEditingController();
+  final TextEditingController _moodTextController = TextEditingController();
 
   String _mood = '';
-  final List<String> _selectedImages = [];
-  final List<String> emojis = [
-    "😀", "😁", "😂", "🤣", "😍", // 😃 웃는 얼굴
-    "🤔", "🤗", "🙂", "😉", "😌", // 🤔 감정 표현
-    "😠", "😡", "😤", "😭", "😢", // 😡 화난 얼굴
-    "🤒", "🤢", "🤮", "🤧", "🥴", // 🤢 아픈 얼굴
-  ];
 
-  String? _selectedEmoji; // ✅ 선택된 이모지 저장
+  Map<String, String> emotions = {
+    "happy": "😊",
+    "love": "😍",
+    "laugh": "😂",
+    "sad": "😢",
+    "angry": "😡",
+    "shocked": "😱",
+    "thinking": "🤔",
+    "pleading": "🥺",
+  };
+
+  String? _selectedEmoji;
 
   @override
   void initState() {
     super.initState();
-    _thredController.addListener(() {
+    _moodTextController.addListener(() {
       setState(() {
-        _mood = _thredController.text;
+        _mood = _moodTextController.text;
       });
     });
   }
 
   @override
   void dispose() {
-    _thredController.dispose();
+    _moodTextController.dispose();
     super.dispose();
   }
 
-  Future<void> _onThreadWrite() async {
+  Future<void> _onMoodWrite() async {
     if (_mood.isNotEmpty) {
       // List<File> imageFiles =
       //     _selectedImages.map((path) => File(path)).toList();
       // await ref
       //     .read(threadProvider.notifier)
       //     .writeThread(_thread, imageFiles, context);
-
       if (mounted) {
         context.go('/');
         Navigator.pop(context);
@@ -62,24 +64,9 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
     }
   }
 
-  void _onTabPaperClip() async {
-    // final List<String>? imagePaths = await Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (context) => const CameraScreen(),
-    //   ),
-    // );
-
-    // if (imagePaths != null && imagePaths.isNotEmpty) {
-    //   _selectedImages.addAll(imagePaths);
-    //   setState(() {});
-    // }
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    // final isLoading = ref.watch(threadProvider).isLoading;
-    final isLoading = false;
 
     return Container(
       height: size.height * 0.9,
@@ -142,8 +129,8 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                         ),
                         Gaps.v10,
                         TextField(
-                          controller: _thredController,
-                          minLines: 3,
+                          controller: _moodTextController,
+                          minLines: 5,
                           maxLines: null,
                           textInputAction: TextInputAction.newline,
                           cursorColor: Theme.of(context).primaryColor,
@@ -160,18 +147,17 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                         ),
                         Gaps.v10,
                         GridView.builder(
-                          padding: EdgeInsets.zero,
                           shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 5,
+                                crossAxisCount: 4,
                                 crossAxisSpacing: 5,
                                 mainAxisSpacing: 5,
                               ),
-                          itemCount: emojis.length,
+                          itemCount: emotions.length,
                           itemBuilder: (context, index) {
-                            String emoji = emojis[index];
+                            String label = emotions.keys.elementAt(index);
+                            String emoji = emotions.values.elementAt(index);
                             bool isSelected = _selectedEmoji == emoji;
                             return GestureDetector(
                               onTap: () {
@@ -179,7 +165,9 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                                   _selectedEmoji = isSelected ? null : emoji;
                                 });
                               },
-                              child: Container(
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
                                   border:
@@ -191,108 +179,53 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                                           : null,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    emojis[index],
-                                    style: const TextStyle(fontSize: 38),
-                                  ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    AnimatedScale(
+                                      scale: isSelected ? 1.3 : 1.0,
+                                      duration: const Duration(
+                                        milliseconds: 300,
+                                      ),
+                                      curve: Curves.easeInOut,
+                                      child: Text(
+                                        emoji,
+                                        style: const TextStyle(fontSize: 38),
+                                      ),
+                                    ),
+                                    Text(
+                                      label.toUpperCase(),
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             );
                           },
                         ),
                         Gaps.v10,
-                        if (_selectedImages.isNotEmpty)
-                          Row(
-                            children: [
-                              Expanded(
-                                child: SizedBox(
-                                  height: 200,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: _selectedImages.length,
-                                    separatorBuilder:
-                                        (context, index) =>
-                                            const SizedBox(width: Sizes.size8),
-                                    itemBuilder: (
-                                      BuildContext context,
-                                      int index,
-                                    ) {
-                                      return Stack(
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                              Sizes.size16,
-                                            ),
-                                            child: Image.file(
-                                              File(_selectedImages[index]),
-                                              height: 200,
-                                              // fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          Positioned(
-                                            right: 0,
-                                            top: 0,
-                                            child: IconButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  _selectedImages.removeAt(
-                                                    index,
-                                                  );
-                                                });
-                                              },
-                                              icon: const Icon(
-                                                Icons.cancel,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        IconButton(
-                          onPressed: () => _onTabPaperClip(),
-                          icon: Icon(FontAwesomeIcons.paperclip),
-                          color: Colors.grey,
-                        ),
                       ],
                     ),
                   ),
                 ],
               ),
-              Positioned(
-                bottom: 0,
-                width: size.width - 32,
-                child: BottomAppBar(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: isLoading ? () {} : _onThreadWrite,
-                        child:
-                            isLoading
-                                ? CircularProgressIndicator()
-                                : Text(
-                                  'Post',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                        _thredController.text.isEmpty
-                                            ? Colors.blue[100]
-                                            : Colors.blue,
-                                  ),
-                                ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ],
+          ),
+        ),
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).padding.bottom + 12,
+            left: 20,
+            right: 20,
+          ),
+          child: AuthButton(
+            text: 'Post',
+            onTap: () => _onMoodWrite,
+            backgroundColor: Colors.blue,
+            textColor: Colors.white,
           ),
         ),
       ),
