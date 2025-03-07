@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1079515373269",
+    "project_id": "sochic-moodtracker-flutter",
+    "storage_bucket": "sochic-moodtracker-flutter.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079515373269:android:4b3045f4ef197a4d914c5c",
+        "android_client_info": {
+          "package_name": "com.example.mood_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmnAt6o5Q59ZNlN24t5V5RHLKLloE6qsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

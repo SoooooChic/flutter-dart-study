@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mood_tracker/constants/gaps.dart';
 import 'package:mood_tracker/constants/sizes.dart';
+import 'package:mood_tracker/view_model/mood_view_model.dart';
 import 'package:mood_tracker/widgets/auth_button.dart';
 import 'package:mood_tracker/widgets/heart_beat.dart';
 
@@ -32,7 +33,9 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
     "pleading": "🥺",
   };
 
-  String? _selectedEmoji;
+  String _feel = '';
+
+  String _emoji = '';
 
   @override
   void initState() {
@@ -51,12 +54,10 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
   }
 
   Future<void> _onMoodWrite() async {
-    if (_mood.isNotEmpty) {
-      // List<File> imageFiles =
-      //     _selectedImages.map((path) => File(path)).toList();
-      // await ref
-      //     .read(threadProvider.notifier)
-      //     .writeThread(_thread, imageFiles, context);
+    if (_mood.isNotEmpty && _emoji.isNotEmpty) {
+      await ref
+          .read(moodProvider.notifier)
+          .writeMood(_feel, _emoji, _mood, context);
       if (mounted) {
         context.go('/');
         Navigator.pop(context);
@@ -158,11 +159,12 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                           itemBuilder: (context, index) {
                             String label = emotions.keys.elementAt(index);
                             String emoji = emotions.values.elementAt(index);
-                            bool isSelected = _selectedEmoji == emoji;
+                            bool isSelected = _emoji == emoji;
                             return GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  _selectedEmoji = isSelected ? null : emoji;
+                                  _feel = isSelected ? '' : label;
+                                  _emoji = isSelected ? '' : emoji;
                                 });
                               },
                               child: AnimatedContainer(
@@ -223,7 +225,7 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
           ),
           child: AuthButton(
             text: 'Post',
-            onTap: () => _onMoodWrite,
+            onTap: _onMoodWrite,
             backgroundColor: Colors.blue,
             textColor: Colors.white,
           ),

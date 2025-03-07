@@ -1,22 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mood_tracker/constants/gaps.dart';
+import 'package:mood_tracker/util.dart';
+import 'package:mood_tracker/view_model/auth_view_model.dart';
 import 'package:mood_tracker/views/create_account_screen.dart';
 import 'package:mood_tracker/widgets/auth_button.dart';
 import 'package:mood_tracker/widgets/auth_form.dart';
 import 'package:mood_tracker/widgets/heart_beat.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   static String routeName = "login";
   static String routeURL = "/login";
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
+  @override
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+
   final Map<String, String> formData = {};
 
-  void _onSubmitTap() {
+  void _onSubmitTap() async {
+    final auth = ref.read(authServiceProvider);
+
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      // 폼 데이터 처리
+
+      try {
+        await auth.signInWithEmail(formData['email']!, formData['password']!);
+        if (mounted) context.go('/');
+      } catch (e) {
+        // ignore: use_build_context_synchronously
+        showFirebaseErrorSnack(context, e);
+      }
     }
   }
 
