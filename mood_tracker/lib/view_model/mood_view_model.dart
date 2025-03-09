@@ -13,15 +13,29 @@ class MoodViewModel extends StreamNotifier<List<MoodModel>> {
   @override
   Stream<List<MoodModel>> build() {
     _moodRepository = ref.read(moodRepoProvider);
-    return getThreads();
+    return getMoods();
   }
 
-  Stream<List<MoodModel>> getThreads() {
-    return ref.read(moodRepoProvider).getMood();
+  Stream<List<MoodModel>> getMoods() {
+    return Stream.fromFuture(
+      ref
+          .read(moodRepoProvider)
+          .searchMoods(
+            int.parse(DateFormat('yyyyMMdd').format(DateTime.now())),
+          ),
+    );
   }
 
-  Future<List<MoodModel>> searchThreads(String keyWord) {
-    return ref.read(moodRepoProvider).searchThreads(keyWord);
+  Future<void> searchMoods(DateTime date) async {
+    state = const AsyncValue.loading();
+    try {
+      final moods = await _moodRepository.searchMoods(
+        int.parse(DateFormat('yyyyMMdd').format(date)),
+      );
+      state = AsyncValue.data(moods);
+    } catch (e, stackTrace) {
+      state = AsyncValue.error(e, stackTrace);
+    }
   }
 
   Future<void> writeMood(
@@ -32,14 +46,20 @@ class MoodViewModel extends StreamNotifier<List<MoodModel>> {
   ) async {
     state = const AsyncValue.loading();
     try {
-      await _moodRepository.createMood(
-        MoodModel(
-          uid: FirebaseAuth.instance.currentUser!.uid,
-          feel: feel,
-          emoji: emoji,
-          comment: comment,
-          createdDate: int.parse(DateFormat('yyyyMMdd').format(DateTime.now())),
-          createdAt: DateTime.now().millisecondsSinceEpoch,
+      final newMood = MoodModel(
+        uid: FirebaseAuth.instance.currentUser!.uid,
+        feel: feel,
+        emoji: emoji,
+        comment: comment,
+        createdDate: int.parse(DateFormat('yyyyMMdd').format(DateTime.now())),
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+      );
+
+      await _moodRepository.createMood(newMood);
+
+      state = AsyncValue.data(
+        await _moodRepository.searchMoods(
+          int.parse(DateFormat('yyyyMMdd').format(DateTime.now())),
         ),
       );
     } catch (e) {
@@ -48,11 +68,23 @@ class MoodViewModel extends StreamNotifier<List<MoodModel>> {
     }
   }
 
-  Future<void> fetchThreadList(String keyword) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(
-      () => _moodRepository.searchThreads(keyword),
-    );
+  Future<void> deleteMood(
+    String uid,
+    int createdAt,
+    BuildContext context,
+  ) async {
+    try {
+      await _moodRepository.deleteMood(uid, createdAt);
+
+      state = AsyncValue.data(
+        await _moodRepository.searchMoods(
+          int.parse(DateFormat('yyyyMMdd').format(DateTime.now())),
+        ),
+      );
+    } catch (e) {
+      // ignore: use_build_context_synchronously
+      showFirebaseErrorSnack(context, e);
+    }
   }
 }
 

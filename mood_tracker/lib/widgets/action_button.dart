@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mood_tracker/constants/sizes.dart';
 
-class AuthButton extends StatelessWidget {
+class ActionButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
   final Color backgroundColor;
   final Color textColor;
 
-  const AuthButton({
+  const ActionButton({
     super.key,
     required this.text,
     required this.onTap,

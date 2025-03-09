@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mood_tracker/constants/gaps.dart';
 import 'package:mood_tracker/constants/sizes.dart';
 import 'package:mood_tracker/view_model/mood_view_model.dart';
-import 'package:mood_tracker/widgets/auth_button.dart';
+import 'package:mood_tracker/widgets/action_button.dart';
 import 'package:mood_tracker/widgets/heart_beat.dart';
 
 class WriteScreen extends ConsumerStatefulWidget {
@@ -86,7 +86,7 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
             },
             child: Container(
               alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: Sizes.size14),
               child: const Text(
                 "Cancel",
                 style: TextStyle(
@@ -157,7 +157,8 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                               ),
                           itemCount: emotions.length,
                           itemBuilder: (context, index) {
-                            String label = emotions.keys.elementAt(index);
+                            String label =
+                                emotions.keys.elementAt(index).toUpperCase();
                             String emoji = emotions.values.elementAt(index);
                             bool isSelected = _emoji == emoji;
                             return GestureDetector(
@@ -196,9 +197,9 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
                                       ),
                                     ),
                                     Text(
-                                      label.toUpperCase(),
+                                      label,
                                       style: const TextStyle(
-                                        fontSize: 14,
+                                        fontSize: Sizes.size12,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -223,7 +224,7 @@ class _WriteScreenState extends ConsumerState<WriteScreen> {
             left: 20,
             right: 20,
           ),
-          child: AuthButton(
+          child: ActionButton(
             text: 'Post',
             onTap: _onMoodWrite,
             backgroundColor: Colors.blue,

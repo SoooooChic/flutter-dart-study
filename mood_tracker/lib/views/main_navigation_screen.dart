@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mood_tracker/constants/sizes.dart';
+import 'package:mood_tracker/view_model/auth_view_model.dart';
 import 'package:mood_tracker/views/write_screen.dart';
 import 'package:mood_tracker/widgets/nav_tab.dart';
 
-class MainNavigationScreen extends StatelessWidget {
+class MainNavigationScreen extends ConsumerWidget {
   final Widget child;
 
   const MainNavigationScreen({super.key, required this.child});
@@ -25,7 +28,7 @@ class MainNavigationScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = 1;
 
     return Scaffold(
@@ -70,11 +73,14 @@ class MainNavigationScreen extends StatelessWidget {
                 selectedIndex: selectedIndex,
               ),
               NavTab(
-                text: "Profile",
+                text: "Sign Out",
                 isSelected: selectedIndex == 4,
-                icon: FontAwesomeIcons.user,
-                selectedIcon: FontAwesomeIcons.solidUser,
-                onTap: () => _onTap(context, 4),
+                icon: FontAwesomeIcons.rightFromBracket,
+                selectedIcon: FontAwesomeIcons.rightFromBracket,
+                onTap: () {
+                  ref.read(authServiceProvider).signOut();
+                  context.go('/');
+                },
                 selectedIndex: selectedIndex,
               ),
             ],

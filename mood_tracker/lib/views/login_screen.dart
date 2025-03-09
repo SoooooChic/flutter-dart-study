@@ -5,7 +5,7 @@ import 'package:mood_tracker/constants/gaps.dart';
 import 'package:mood_tracker/util.dart';
 import 'package:mood_tracker/view_model/auth_view_model.dart';
 import 'package:mood_tracker/views/create_account_screen.dart';
-import 'package:mood_tracker/widgets/auth_button.dart';
+import 'package:mood_tracker/widgets/action_button.dart';
 import 'package:mood_tracker/widgets/auth_form.dart';
 import 'package:mood_tracker/widgets/heart_beat.dart';
 
@@ -69,7 +69,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
             ),
             Gaps.v14,
-            AuthButton(text: 'Log in', onTap: _onSubmitTap),
+            ActionButton(text: 'Log in', onTap: _onSubmitTap),
           ],
         ),
       ),
@@ -79,7 +79,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           left: 20,
           right: 20,
         ),
-        child: AuthButton(
+        child: ActionButton(
           text: 'Create New Account',
           onTap: () => _onCreateAccountTap(context),
           backgroundColor: Colors.transparent,

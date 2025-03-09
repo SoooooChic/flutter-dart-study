@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mood_tracker/constants/gaps.dart';
 import 'package:mood_tracker/util.dart';
 import 'package:mood_tracker/view_model/auth_view_model.dart';
-import 'package:mood_tracker/widgets/auth_button.dart';
+import 'package:mood_tracker/widgets/action_button.dart';
 import 'package:mood_tracker/widgets/auth_form.dart';
 import 'package:mood_tracker/widgets/heart_beat.dart';
 
@@ -64,7 +64,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                 ),
               ),
               Gaps.v14,
-              AuthButton(text: 'Create Account', onTap: _onSubmitTap),
+              ActionButton(text: 'Create Account', onTap: _onSubmitTap),
             ],
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mood_tracker/models/mood_model.dart';
 
@@ -20,19 +21,36 @@ class MoodRepo {
         );
   }
 
-  Future<List<MoodModel>> searchThreads(String keyword) async {
+  Future<List<MoodModel>> searchMoods(int date) async {
     final query =
         await _db
             .collection("moods")
             .where(
-              Filter.or(
-                Filter("uid", isEqualTo: keyword),
-                Filter("comment", isEqualTo: keyword),
+              Filter.and(
+                Filter(
+                  "uid",
+                  isEqualTo: FirebaseAuth.instance.currentUser!.uid,
+                ),
+                Filter("createdDate", isEqualTo: date),
               ),
             )
+            // .orderBy("createdAt", descending: true)
             .get();
 
     return query.docs.map((doc) => MoodModel.fromJson(doc.data())).toList();
+  }
+
+  Future<void> deleteMood(String uid, int createdAt) async {
+    final querySnapshot =
+        await _db
+            .collection("moods")
+            .where("uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .where("createdAt", isEqualTo: createdAt)
+            .get();
+
+    for (var doc in querySnapshot.docs) {
+      await _db.collection("moods").doc(doc.id).delete();
+    }
   }
 }
 

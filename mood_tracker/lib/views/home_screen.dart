@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mood_tracker/constants/gaps.dart';
 import 'package:mood_tracker/constants/sizes.dart';
+import 'package:mood_tracker/util.dart';
+import 'package:mood_tracker/view_model/mood_view_model.dart';
+import 'package:mood_tracker/widgets/heart_beat.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
@@ -21,10 +24,52 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
+  void _showDeleteDialog(String uid, int createdAt) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Delete note'),
+            content: const Text('Are you sure you want to do this?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  ref
+                      .read(moodProvider.notifier)
+                      .deleteMood(uid, createdAt, context);
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Delete',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final moodList = ref.watch(moodProvider);
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Calendar")),
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            HeartBeat(size: 20.0),
+            Gaps.h10,
+            Text("Moods Calendar"),
+            Gaps.h10,
+            HeartBeat(size: 20.0),
+          ],
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -42,6 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return isSameDay(_selectedDay, day);
               },
               onDaySelected: (selectedDay, focusedDay) {
+                ref.read(moodProvider.notifier).searchMoods(selectedDay);
                 setState(() {
                   _selectedDay = selectedDay;
                   _focusedDay = focusedDay;
@@ -73,44 +119,42 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Gaps.v40,
             Expanded(
-              child: ListView.separated(
-                shrinkWrap: true,
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Sizes.size10),
-                      color: Colors.grey.shade100,
-                      border: Border.all(color: Colors.grey.shade200),
+              child: moodList.when(
+                data:
+                    (moods) => ListView.separated(
+                      itemCount: moods.length,
+                      separatorBuilder: (context, index) => Gaps.v10,
+                      itemBuilder: (context, index) {
+                        final mood = moods[index];
+                        return GestureDetector(
+                          onLongPress:
+                              () => _showDeleteDialog(mood.uid, mood.createdAt),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(Sizes.size10),
+                              color: Colors.grey.shade100,
+                              border: Border.all(color: Colors.grey.shade200),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              vertical: Sizes.size6,
+                            ),
+                            child: ListTile(
+                              leading: Text(
+                                mood.emoji,
+                                style: TextStyle(fontSize: Sizes.size36),
+                              ),
+                              title: Text(mood.feel),
+                              subtitle: Text(mood.comment),
+                              trailing: Text(timeAgo(mood.createdAt)),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    padding: EdgeInsets.symmetric(vertical: Sizes.size6),
-                    child: ListTile(
-                      leading: Text(
-                        '😊',
-                        style: TextStyle(fontSize: Sizes.size36),
-                      ),
-                      title: Text(
-                        'asddfasdfasasdfasdfasdfasdfasd\nasdfasdfasdfasdf',
-                      ),
-                      subtitle: Text('$index hours ago'),
-                      // trailing: FaIcon(
-                      //   FontAwesomeIcons.trash,
-                      //   size: Sizes.size12,
-                      // ),
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) => Gaps.v10,
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, stack) => Center(child: Text('Error: $error')),
               ),
             ),
-            if (_selectedDay != null)
-              Text(
-                "선택된 날짜: ${DateFormat('yyyy년 MM월 dd일').format(_selectedDay!)}",
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
           ],
         ),
       ),
