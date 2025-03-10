@@ -35,30 +35,28 @@ class _Assignment28ImplicitAnimationsState
     return Scaffold(
       backgroundColor: _isToggle ? Colors.grey[100] : Colors.black,
       appBar: AppBar(title: const Text('Implicit Animations')),
-      body: GestureDetector(
-        child: Center(
-          child: SizedBox(
-            height: size.width * 0.8,
-            width: size.width * 0.8,
-            child: Stack(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    shape: _isToggle ? BoxShape.circle : BoxShape.rectangle,
-                  ),
+      body: Center(
+        child: SizedBox(
+          height: size.width * 0.8,
+          width: size.width * 0.8,
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  shape: _isToggle ? BoxShape.circle : BoxShape.rectangle,
                 ),
-                AnimatedAlign(
-                  alignment:
-                      _isToggle ? Alignment.centerLeft : Alignment.centerRight,
-                  duration: Duration(seconds: 1),
-                  child: Container(
-                    width: 20,
-                    color: _isToggle ? Colors.black : Colors.white,
-                  ),
+              ),
+              AnimatedAlign(
+                alignment:
+                    _isToggle ? Alignment.centerLeft : Alignment.centerRight,
+                duration: Duration(seconds: 1),
+                child: Container(
+                  width: 20,
+                  color: _isToggle ? Colors.black : Colors.white,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
