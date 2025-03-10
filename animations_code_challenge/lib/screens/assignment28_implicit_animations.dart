@@ -21,10 +21,9 @@ class _Assignment28ImplicitAnimationsState
   void _startAnimation() {
     Future.delayed(const Duration(seconds: 1), () {
       if (mounted) {
-        setState(() {
-          _isToggle = !_isToggle;
-        });
+        _isToggle = !_isToggle;
         _startAnimation();
+        setState(() {});
       }
     });
   }
