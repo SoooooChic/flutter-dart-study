@@ -40,7 +40,7 @@ class _ImplicitAnimationsScreenState extends State<ImplicitAnimationsScreen> {
             ),
             const SizedBox(height: 50),
             AnimatedContainer(
-              curve: Curves.easeInOut,
+              curve: Curves.elasticOut,
               duration: Duration(seconds: 1),
               width: size.width * 0.8,
               height: size.width * 0.8,
