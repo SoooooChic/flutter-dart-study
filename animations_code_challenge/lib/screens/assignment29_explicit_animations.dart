@@ -50,22 +50,29 @@ class _ExplicitBoxState extends State<ExplicitBox>
     duration: const Duration(milliseconds: 1200),
   );
 
-  late final Animation<Decoration> _decoration = DecorationTween(
-    begin: BoxDecoration(
-      color: Colors.pink,
-      borderRadius: BorderRadius.circular(10),
-    ),
-    end: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.zero),
+  late final Animation<BorderRadius?> _decoration = BorderRadiusTween(
+    begin: BorderRadius.circular(10),
+    end: BorderRadius.zero,
   ).animate(_curve);
+
+  late final Animation<Color?> _color = ColorTween(
+    begin: Colors.pink,
+    end: Colors.red,
+  ).animate(_curveOpacity);
 
   late final Animation<double> _scale = Tween(
     begin: 1.0,
     end: 0.8,
   ).animate(_curveScale);
 
+  late final Animation<double> _opacity = Tween<double>(
+    begin: 1.0,
+    end: 0.0,
+  ).animate(_curveOpacity);
+
   late final CurvedAnimation _curve = CurvedAnimation(
     parent: _animationController,
-    curve: Curves.linear,
+    curve: Curves.easeOutBack,
   );
 
   late final CurvedAnimation _curveScale = CurvedAnimation(
@@ -73,14 +80,9 @@ class _ExplicitBoxState extends State<ExplicitBox>
     curve: Curves.easeOut,
   );
 
-  late final Animation<double> _opacity = Tween<double>(
-    begin: 1.0,
-    end: 0.0,
-  ).animate(_curveOpacity);
-
   late final CurvedAnimation _curveOpacity = CurvedAnimation(
     parent: _animationController,
-    curve: Curves.easeInOut,
+    curve: Curves.easeOutCirc,
   );
 
   @override
@@ -108,10 +110,18 @@ class _ExplicitBoxState extends State<ExplicitBox>
           opacity: _opacity.value,
           child: ScaleTransition(
             scale: _scale,
-            child: DecoratedBoxTransition(
-              decoration: _decoration,
-              child: const SizedBox(height: 50, width: 50),
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: _color.value,
+                borderRadius: _decoration.value,
+              ),
             ),
+            // child: DecoratedBoxTransition(
+            //   decoration: _decoration,
+            //   child: const SizedBox(height: 50, width: 50),
+            // ),
           ),
         );
       },
