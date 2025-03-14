@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:animations_code_challenge/screens/assignment30_custom_painter.dart';
 import 'package:animations_code_challenge/screens/assignment28_implicit_animations.dart';
 import 'package:animations_code_challenge/screens/assignment29_explicit_animations.dart';
 
@@ -27,6 +28,12 @@ class MenuScreen extends StatelessWidget {
                 _goToPage(context, const Assignment29ExplicitAnimations());
               },
               child: const Text('Assignment29 Explicit Animations'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _goToPage(context, const Assignment30CustomPainter());
+              },
+              child: const Text('Assignment30 Custom Painter'),
             ),
           ],
         ),
