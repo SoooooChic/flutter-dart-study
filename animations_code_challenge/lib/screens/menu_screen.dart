@@ -3,6 +3,7 @@ import 'package:animations_code_challenge/screens/assignment28_implicit_animatio
 import 'package:animations_code_challenge/screens/assignment29_explicit_animations.dart';
 import 'package:animations_code_challenge/screens/assignment30_custom_painter.dart';
 import 'package:animations_code_challenge/screens/assignment31_flashcards_app.dart';
+import 'package:animations_code_challenge/screens/assignment32_our_last_animation_project.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
@@ -41,6 +42,12 @@ class MenuScreen extends StatelessWidget {
                 _goToPage(context, const Assignment31FlashcardsApp());
               },
               child: const Text('Assignment31 Flashcards App'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _goToPage(context, const Assignment32OurLastAnimationProject());
+              },
+              child: const Text('Assignment33 Our Last Animation Project'),
             ),
           ],
         ),
