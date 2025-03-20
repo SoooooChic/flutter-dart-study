@@ -1,4 +1,4 @@
-import 'package:animations/screens/menu_screen.dart';
+import 'package:animation_master/screens/menu_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,6 +14,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Animations Masterclass',
       theme: ThemeData(
         useMaterial3: true,
+        navigationBarTheme: const NavigationBarThemeData(
+          indicatorColor: Colors.amber,
+        ),
         colorScheme: const ColorScheme.light(primary: Colors.blue),
       ),
       home: const MenuScreen(),

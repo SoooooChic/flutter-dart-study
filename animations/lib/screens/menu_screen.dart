@@ -1,8 +1,13 @@
-import 'package:animations/screens/apple_watch_screen.dart';
-import 'package:animations/screens/explicit_animations_screen.dart';
-import 'package:animations/screens/implicit_animations_dscreen.dart';
-import 'package:animations/screens/music_player_screen.dart';
-import 'package:animations/screens/swiping_cards_screen.dart';
+import 'package:animation_master/screens/apple_watch_screen.dart';
+import 'package:animation_master/screens/container_transform_screen.dart';
+import 'package:animation_master/screens/explicit_animations_screen.dart';
+import 'package:animation_master/screens/fade_through_screen.dart';
+import 'package:animation_master/screens/implicit_animations_dscreen.dart';
+import 'package:animation_master/screens/music_player_screen.dart';
+import 'package:animation_master/screens/rive_screen.dart';
+import 'package:animation_master/screens/shared_axis_screen.dart';
+import 'package:animation_master/screens/swiping_cards_screen.dart';
+import 'package:animation_master/screens/wallet_screen.dart';
 import 'package:flutter/material.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -48,6 +53,36 @@ class MenuScreen extends StatelessWidget {
                 _goToPage(context, const MusicPlayerScreen());
               },
               child: const Text('Music Player'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _goToPage(context, const RiveScreen());
+              },
+              child: const Text('Rive'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _goToPage(context, const ContainerTransformScreen());
+              },
+              child: const Text('Container Transform'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _goToPage(context, const SharedAxisScreen());
+              },
+              child: const Text('Shared Axis'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _goToPage(context, const FadeThroughScreen());
+              },
+              child: const Text('Fade Through'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _goToPage(context, const WalletScreen());
+              },
+              child: const Text('Wallet Screen'),
             ),
           ],
         ),
