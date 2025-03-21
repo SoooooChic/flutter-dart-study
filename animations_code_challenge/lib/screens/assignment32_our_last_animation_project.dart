@@ -115,7 +115,6 @@ class _Assignment32OurLastAnimationProjectState
               GameBackground(
                 imageUrl: _gameList[_currentPage].thumbnailUrl,
                 isCollapsed: _isCollapsed,
-                key: ValueKey(_currentPage),
               ),
               Positioned(
                 top: 270,
@@ -155,8 +154,6 @@ class _Assignment32OurLastAnimationProjectState
               ),
               Positioned(
                 top: 0,
-                left: 0,
-                right: 0,
                 child: GameDetailPanel(
                       game: _gameList[_selectedGame],
                       isCollapsed: _isCollapsed,
