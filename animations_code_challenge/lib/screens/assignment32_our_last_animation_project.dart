@@ -195,11 +195,21 @@ class GameBackground extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: TweenAnimationBuilder<double>(
+          tween: Tween<double>(
+            begin: isCollapsed ? 10 : 30,
+            end: isCollapsed ? 30 : 10,
+          ),
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          builder: (context, value, child) {
+            return BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: value, sigmaY: value),
+              child: child,
+            );
+          },
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
+            duration: const Duration(milliseconds: 300),
             color: Colors.black.withValues(alpha: isCollapsed ? 0.7 : 0.2),
           ),
         ),
